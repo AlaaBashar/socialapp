@@ -1,13 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:socialapp/state_management/provider/home.dart';
 import 'export_feature.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
+  await Firebase.initializeApp();
+
   runApp(
-    ChangeNotifierProvider<Counter>(
-      create: (_) => Counter(),
+    ChangeNotifierProvider<ChangeMode>(
+      create: (_) => ChangeMode(),
       child: const MyApp(),
     ),
   );
@@ -23,10 +27,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: context.watch<Counter>().isDark ? ThemeData.dark() : ThemeData.light(),
-      home: const HomeScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
+        ChangeNotifierProvider<RegisterProvider>(create: (_) => RegisterProvider()),
+        ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
+
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: context.watch<ChangeMode>().isDark ? MyThemeApp.darkMode : MyThemeApp.lightMode,
+        home: const SplashScreen(),
+      ),
     );
   }
 }

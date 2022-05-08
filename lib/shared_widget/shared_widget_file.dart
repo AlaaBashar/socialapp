@@ -120,7 +120,6 @@ class DefaultTextFieldWidget extends StatelessWidget {
   }
 }
 
-
 Future showMyDialog(context) async => showDialog(
   context: context,
   //barrierDismissible: false, // user must tap button!

@@ -29,20 +29,36 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: ^2.0.13
-  fluttertoast: ^8.0.9
-  lint: ^1.8.2
-  flutter_bloc: ^8.0.1
-  equatable: ^2.0.3
-  cached_network_image: ^3.2.0
-  provider: ^6.0.2
-  conditional_builder_null_safety: ^0.0.6
 
+
+  #Tools_Package
+  shared_preferences: ^2.0.13
+  lint: ^1.8.2
+
+  #Widget_Package
+  cached_network_image: ^3.2.0
+  conditional_builder_null_safety: ^0.0.6
+  fluttertoast: ^8.0.9
+  font_awesome_flutter: ^10.1.0
+
+  #StateMangment_Package
+  provider: ^6.0.2
+  equatable: ^2.0.3
+  flutter_bloc: ^8.0.1
+
+  #Firebase_Package
+  firebase_core: ^1.14.1
+  firebase_auth: ^3.3.15
+  cloud_firestore: ^3.1.12
+  firebase_storage: ^10.2.12
+  firebase_messaging: ^11.2.13
+
+
+  cupertino_icons: ^1.0.2
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -67,8 +83,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -82,10 +98,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: MyFlutterApp
+      fonts:
+        - asset: assets/icon/custom_icon.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

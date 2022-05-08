@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -143,17 +144,6 @@ class ShowToast {
       toastDuration: const Duration(seconds: 2),
     );
   }
-// // Custom Toast Position
-// fToast.showToast(
-//     child: toast,
-//     toastDuration: const Duration(seconds: 2),
-//     positionedToastBuilder: (context, child) {
-//       return Positioned(
-//         child: child,
-//         top: 16.0,
-//         left: 16.0,
-//       );
-//     });
 
 }
 
@@ -214,4 +204,35 @@ void printFullText(String text){
   
   final pattern = RegExp('.{1800}');
   pattern.allMatches(text).forEach((match) => print(match.group(0)));
+}
+
+Widget getCenterCircularProgress(
+    {double? padding, double? size, Color? color, double radius = 12 , }) {
+  return Container(
+    padding: EdgeInsets.all(padding ?? 0.0),
+    height: size ,
+    width: size ,
+    child: Center(
+      child: CupertinoActivityIndicator(radius: radius,),
+    ),
+  );
+}
+
+void showSnackBar(BuildContext context, String value,
+    {bool isError = false,
+      bool isSuccess = false,
+      Duration? duration,
+      SnackBarAction? snackBarAction}) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(
+      value,
+    ),
+    duration: duration ?? Duration(seconds: 15),
+    action: snackBarAction,
+    backgroundColor: isError
+        ? Colors.red[800]
+        : isSuccess
+        ? Colors.green[800]
+        : null,
+  ));
 }
