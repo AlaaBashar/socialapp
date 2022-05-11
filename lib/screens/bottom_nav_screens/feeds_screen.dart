@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../export_feature.dart';
+
 class FeedsScreen extends StatelessWidget {
   const FeedsScreen({Key? key}) : super(key: key);
 
@@ -11,7 +12,6 @@ class FeedsScreen extends StatelessWidget {
       child: Column(
         children: [
           Card(
-
             clipBehavior: Clip.antiAliasWithSaveLayer,
             margin: const EdgeInsets.all(8.0),
             elevation: 6.0,
@@ -50,6 +50,7 @@ class FeedsScreen extends StatelessWidget {
             },
           ),
           const SizedBox(height: 10.0,),
+
         ],
       ),
     );
@@ -63,7 +64,6 @@ class FeedsScreen extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: Column(
         children:  [
-
           Row(
             children:[
               Container(
@@ -270,9 +270,6 @@ class FeedsScreen extends StatelessWidget {
 
             ],
           ),
-
-
-
         ],
       ),
     ),

@@ -25,6 +25,8 @@ class RegisterProvider with ChangeNotifier, DiagnosticableTreeMixin {
       date: DateTime.now(),
       id: id,
       uid: '',
+      image: 'https://img.freepik.com/free-photo/attractive-surprised-curly-haired-woman-keeps-lips-rounded-points-thumb-away-makes-her-choice-shopping-dressed-casual-hoodie-poses-yellow-wall-shows-logo-promo-deal-copy-space_273609-49702.jpg?t=st=1652078518~exp=1652079118~hmac=1cf3a4e4a7f62207ae5c73eff64987a03176b87a33bd0255b495d450480bca03&w=1380',
+      bio: 'write your bio ...',
     );
 
     UserModel? response = await Auth.signUpByEmailAndPass(

@@ -1,11 +1,14 @@
 class UserModel{
-  String? id, uid, name, password, email , phone;
+  String? id, uid, name, password, email, phone, image,cover, bio;
   bool? isBlocked ;
   DateTime? date;
 
   UserModel({
     this.id,
     this.uid,
+    this.image,
+    this.cover,
+    this.bio,
     this.name,
     this.email,
     this.password,
@@ -18,6 +21,9 @@ class UserModel{
     return UserModel(
       id: json["id"],
       uid: json["uid"],
+      image: json["image"],
+      cover: json["cover"],
+      bio: json["bio"],
       name: json["name"],
       phone: json["phone"],
       email: json["email"],
@@ -28,11 +34,15 @@ class UserModel{
     );
   }
 
+  
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "uid": uid,
-      "name": name,
+      "id":id,
+      "uid":uid,
+      "cover":cover,
+      "name":name,
+      "image":image,
+      "bio": bio,
       "phone": phone,
       "isBlocked": isBlocked ?? false,
       "email": email,

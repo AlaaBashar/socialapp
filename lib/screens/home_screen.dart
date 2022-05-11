@@ -21,23 +21,26 @@ class _HomeScreenState extends State<HomeScreen> {
     var homeWatch = HomeProvider.watch(context);
     return Scaffold(
       drawer:const NavDrawer(),
-      appBar: AppBar(
-        title:  Text(homeWatch.titles[homeWatch.currentIndex]),
+      appBar: DefaultAppbar(
+        titlesList: homeWatch.titles,
+        titlesIndex: homeWatch.currentIndex,
         actions: [
           IconButton(
             onPressed: () {},
             icon: const Icon(MyFlutterApp.notifications),
           ),
           IconButton(
-            onPressed: () {
-            },
-            icon: const Icon(MyFlutterApp.search),
-          ),
-        ],
-      ),
+          onPressed: () {
+          },
+          icon: const Icon(MyFlutterApp.search),
+        ),
+        ],),
+
+
+
       body:homeWatch.bottomNav[homeWatch.currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) => homeRead.onChangeIndexOfNav(index),
+        onTap: (index) => homeRead.onChangeIndexOfNav(index: index,context: context),
         currentIndex: homeWatch.currentIndex,
         items: const [
           BottomNavigationBarItem(
@@ -47,6 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(MyFlutterApp.chat_1),
             label: 'Chat',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(MyFlutterApp.upload),
+            label: 'Post',
           ),
           BottomNavigationBarItem(
             icon: Icon(MyFlutterApp.user),

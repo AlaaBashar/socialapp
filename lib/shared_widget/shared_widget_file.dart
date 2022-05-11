@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../export_feature.dart';
 class DefaultButtonWidget extends StatelessWidget {
   final String? text;
   final Color? textColor;
@@ -68,7 +67,7 @@ class DefaultTextFieldWidget extends StatelessWidget {
     this.icon,
     this.height,
     this.horizontalPadding,
-    this.isSuffixShow,
+    this.isSuffixShow = false,
     this.suffixOnPressed,
     this.suffixIcon,
     this.onSubmit, this.hintTextColor,
@@ -106,7 +105,7 @@ class DefaultTextFieldWidget extends StatelessWidget {
               hintStyle:TextStyle(color: hintTextColor ?? Colors.grey),
               border: InputBorder.none,
               enabled: true,
-              suffixIcon: isSuffixShow != false
+              suffixIcon: isSuffixShow == true
                   ? IconButton(
                       icon: Icon(suffixIcon!),
                       splashColor: Colors.transparent,
@@ -181,3 +180,30 @@ Future showMyDialog(context) async => showDialog(
         );
   },
 );
+
+
+class DefaultAppbar extends StatelessWidget with PreferredSizeWidget {
+  final String? title;
+  final List<Widget>? actions;
+  final List<String>? titlesList;
+  final int? titlesIndex;
+
+  const DefaultAppbar({
+    Key? key,
+    this.title,
+    this.actions,
+    this.titlesList,
+    this.titlesIndex,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title:  Text(title ?? titlesList![titlesIndex!]),
+      actions: actions,
+    );
+  }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}

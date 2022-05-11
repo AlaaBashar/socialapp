@@ -16,6 +16,12 @@ class MyThemeApp{
         color: Colors.black,
         height: 1.3
       ),
+      button:TextStyle(
+        fontSize: 14.0,
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
+        height: 1.3
+      ),
     ),
     ///-----------------------------------------------------------------
     appBarTheme: const AppBarTheme(
@@ -36,7 +42,6 @@ class MyThemeApp{
       unselectedItemColor: Colors.black,
     ),
     ///-----------------------------------------------------------------
-
   );
 
   ///-------------------------darkMode----------------------------------------
@@ -54,6 +59,13 @@ class MyThemeApp{
           color: Colors.white,
           height: 1.3
       ),
+      button:TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+          height: 1.3
+      ),
+
     ),
     ///-----------------------------------------------------------------
     scaffoldBackgroundColor: Colors.grey.shade900,

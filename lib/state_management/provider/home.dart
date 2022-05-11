@@ -13,17 +13,26 @@ class HomeProvider with ChangeNotifier, DiagnosticableTreeMixin {
   List<String> titles = [
    'Home',
    'Chats',
+   'New Post',
    'Users',
    'Settings',
   ];
   List<Widget> bottomNav = [
     const FeedsScreen(),
     const ChatScreen(),
+    const NewPostScreen(),
     const UsersScreen(),
     const SettingScreen(),
   ];
-  void onChangeIndexOfNav(int? index) {
-    currentIndex = index!;
+  void onChangeIndexOfNav({int? index, context}) {
+
+    if(index == 2){
+      openNewPage(context, const NewPostScreen());
+    }
+    else{
+      currentIndex = index!;
+
+    }
     notifyListeners();
   }
 

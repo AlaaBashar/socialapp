@@ -13,17 +13,11 @@ class Auth {
 
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  static Future<UserModel?> signUpByEmailAndPass(
-      {required UserModel userModel,
-      required String? email,
-      required String? password}) async {
+  static Future<UserModel?> signUpByEmailAndPass({required UserModel userModel, required String? email,required String? password}) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email!, password: password!);
-
       userModel.uid = userCredential.user!.uid;
-      return await Api.insertNewUser(
-        userApp: userModel,
-      );
+      return await Api.insertNewUser(userApp: userModel,);
     } on FirebaseAuthException catch (e) {
       //handle auth error
       if (e.code == "email-already-in-use") {
@@ -47,8 +41,7 @@ class Auth {
     }
   }
 
-  static Future<UserModel?> loginByEmailAndPass(
-      {String? email, String? password}) async {
+  static Future<UserModel?> loginByEmailAndPass({String? email, String? password}) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email ?? '', password: password ?? '');

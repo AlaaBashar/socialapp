@@ -4,16 +4,19 @@ export 'screens/login_screen.dart';
 export 'screens/register_screen.dart';
 export 'screens/splash_screen.dart';
 ///BOTTOM_NAV_SCREEN
+export 'screens/bottom_nav_screens/new_post_screen.dart';
 export 'screens/bottom_nav_screens/feeds_screen.dart';
 export 'screens/bottom_nav_screens/chat_screen.dart';
 export 'screens/bottom_nav_screens/users_screen.dart';
-export 'screens/bottom_nav_screens/setting_screen.dart';
+export 'screens/bottom_nav_screens/settings/setting_screen.dart';
+export 'screens/bottom_nav_screens/settings/edit_settings_screen.dart';
 
 
 ///NETWORK
 export 'network/auth.dart';
 export 'network/api.dart';
 export 'network/constants.dart';
+export 'network/storage.dart';
 
 ///MODELS
 export 'models/user_model.dart';
