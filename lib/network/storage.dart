@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../export_feature.dart';
+
 
 class Storage{
 
@@ -13,7 +15,7 @@ class Storage{
 
 
   static Future<String?> uploadUserImage({required File? image}) async {
-    final ref = _storage.ref().child('users/${Uri.file(image!.path).pathSegments.last}');
+    final ref = _storage.ref().child('${CollectionsStorageKeys.USERS}/${Uri.file(image!.path).pathSegments.last}');
     try {
       TaskSnapshot? upImage = await ref.putFile(image);
       String? url = await upImage.ref.getDownloadURL();
@@ -39,7 +41,7 @@ class Storage{
     // });
   }
 
-  static Future<File> getGalleryImage({required File? image}) async {
+  static Future<File?> getGalleryImage({required File? image}) async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
         return image= File(pickedFile.path);

@@ -46,7 +46,7 @@ class Auth {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email ?? '', password: password ?? '');
 
-      return await Api.getUserFromUid(userCredential.user!.uid);
+      return await Api.getUserFromUid(uid:userCredential.user!.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         return Future.error('There is no record for this email');

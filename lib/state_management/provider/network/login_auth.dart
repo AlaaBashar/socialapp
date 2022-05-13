@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../export_feature.dart';
+import '../../../export_feature.dart';
 
 class LoginProvider with ChangeNotifier, DiagnosticableTreeMixin {
   static LoginProvider watch(context) => Provider.of(context,); ///watch-function ///get variables

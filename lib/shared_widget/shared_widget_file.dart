@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DefaultButtonWidget extends StatelessWidget {
   final String? text;
@@ -70,7 +71,8 @@ class DefaultTextFieldWidget extends StatelessWidget {
     this.isSuffixShow = false,
     this.suffixOnPressed,
     this.suffixIcon,
-    this.onSubmit, this.hintTextColor,
+    this.onSubmit,
+    this.hintTextColor,
   }) : super(key: key);
 
   @override
@@ -84,19 +86,22 @@ class DefaultTextFieldWidget extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 10,
-              offset: const Offset(0, 10),
+              spreadRadius: 0.5,
+              blurRadius: 2,
+              offset: const Offset(0, 2),
             )
           ],
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: TextFormField(
             controller: controller,
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            inputFormatters: [],
             obscureText: isObscure ?? false,
             onChanged: onSubmit,
             decoration: InputDecoration(
@@ -113,18 +118,19 @@ class DefaultTextFieldWidget extends StatelessWidget {
                     )
                   : null,
             ),
-            validator: validator),
+            validator: validator,
+        ),
       ),
     );
   }
 }
 
-Future showMyDialog(context) async => showDialog(
+Future showMyDialog({context, required String? title, required String? body}) async => showDialog(
   context: context,
   //barrierDismissible: false, // user must tap button!
   builder: (BuildContext context) {
     return AlertDialog(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       actionsAlignment: MainAxisAlignment.spaceEvenly,
       shape:RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0)
@@ -133,22 +139,30 @@ Future showMyDialog(context) async => showDialog(
       title: Column(
         children: [
           Container(
-            decoration: const BoxDecoration(
-              color: Colors.red,
-              borderRadius:BorderRadius.only(topLeft:Radius.circular(15.0),topRight:Radius.circular(15.0 )),
+            decoration:BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 0.3,
+                  blurRadius: 1,
+                  offset: const Offset(0, 1),
+                )
+              ],
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius:const BorderRadius.only(topLeft:Radius.circular(15.0),topRight:Radius.circular(15.0 )),
             ),
             height: 70.0,
             width: double.infinity,
-            child: const Icon(Icons.warning_amber_rounded,size: 55.0,color: Colors.white,),
+            child: const Icon(Icons.warning_amber_rounded,size: 55.0,color: Colors.grey,),
           ),
           const SizedBox(height: 10.0,),
-            Text('Warning!',style: TextStyle(fontWeight: FontWeight.w700,fontSize: 24.0,color:Theme.of(context).appBarTheme.titleTextStyle!.color),),
+            Text('$title!',style: Theme.of(context).textTheme.headline3,),
         ],
       ),
       content: SingleChildScrollView(
         child: ListBody(
           children:  [
-            Text('Do you want to exit an App?',style: TextStyle(color: Theme.of(context).appBarTheme.titleTextStyle!.color),),
+            Text('$body?',style: Theme.of(context).textTheme.bodyText2,),
           ],
         ),
       ),
@@ -159,7 +173,7 @@ Future showMyDialog(context) async => showDialog(
               },
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0)),
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: const Text('No'),
               splashColor: Colors.redAccent,
               elevation: 8.0,
@@ -170,7 +184,7 @@ Future showMyDialog(context) async => showDialog(
               },
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0)),
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: const Text('Yes'),
               splashColor: Colors.greenAccent,
               elevation: 8.0,

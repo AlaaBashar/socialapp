@@ -20,6 +20,7 @@ export 'network/storage.dart';
 
 ///MODELS
 export 'models/user_model.dart';
+export 'models/post_model.dart';
 
 ///HELPER
 export 'helper/image_helper.dart';
@@ -38,5 +39,7 @@ export 'constant_file.dart';
 /// PROVIDER
 export 'state_management/provider/app_mode.dart';
 export 'state_management/provider/home.dart';
-export 'state_management/provider/login_auth.dart';
-export 'state_management/provider/register_auth.dart';
+export 'state_management/provider/home.dart';
+export 'state_management/provider/network/login_auth.dart';
+export 'state_management/provider/network/register_auth.dart';
+export 'state_management/provider/network/update_user_data.dart';

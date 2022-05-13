@@ -99,6 +99,43 @@ class ProgressCircleDialog {
     }
   }
 }
+class ProgressLinearDialog {
+  static bool _isShow = false;
+  static show({
+    BuildContext? context,
+    String? title,
+  }) {
+    showDialog(
+        context: context!,
+        builder: (_) =>  MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:  [
+                  Text('$title...!',style: Theme.of(context).textTheme.button,),
+                  const SizedBox(height: 5.0,),
+                   LinearProgressIndicator(minHeight: 3.0,backgroundColor: Theme.of(context).scaffoldBackgroundColor,),
+                ],
+              ),
+            )),
+          ),
+        ),
+        barrierDismissible: false);
+    _isShow = true;
+  }
+
+  static dismiss(BuildContext context) {
+    if (_isShow) {
+      Navigator.pop(context);
+      _isShow = false;
+    }
+  }
+}
 
 class ShowToast {
   static FToast? fToast = FToast();
@@ -227,7 +264,7 @@ void showSnackBar(BuildContext context, String value,
     content: Text(
       value,
     ),
-    duration: duration ?? Duration(seconds: 15),
+    duration: duration ?? const Duration(seconds: 2),
     action: snackBarAction,
     backgroundColor: isError
         ? Colors.red[800]

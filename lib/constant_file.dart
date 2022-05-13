@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 class MyThemeApp{
+  ///--------------------------lightMode---------------------------------------
   static final ThemeData? lightMode = ThemeData(
-    ///---------------------------lightMode--------------------------------------
     primarySwatch: Colors.blue,
     ///-----------------------------------------------------------------
     textTheme: const TextTheme(
@@ -22,7 +21,22 @@ class MyThemeApp{
         color: Colors.white,
         height: 1.3
       ),
+      bodyText2: TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+          color: Colors.black,
+          height: 1.3
+      ),
+      headline3:  TextStyle(
+          fontSize: 22.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          height: 1.3
+      ),
+
     ),
+    ///-----------------------------------------------------------------
+
     ///-----------------------------------------------------------------
     appBarTheme: const AppBarTheme(
       color: Colors.blue,
@@ -43,9 +57,7 @@ class MyThemeApp{
     ),
     ///-----------------------------------------------------------------
   );
-
-  ///-------------------------darkMode----------------------------------------
-
+  ///--------------------------darkMode----------------------------------------
   static final ThemeData? darkMode =  ThemeData(
     ///-----------------------------------------------------------------
     textTheme: const TextTheme(
@@ -62,6 +74,18 @@ class MyThemeApp{
       button:TextStyle(
           fontSize: 14.0,
           fontWeight: FontWeight.w600,
+          color: Colors.white,
+          height: 1.3
+      ),
+      bodyText2: TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+          height: 1.3
+      ),
+      headline3:  TextStyle(
+          fontSize: 22.0,
+          fontWeight: FontWeight.bold,
           color: Colors.white,
           height: 1.3
       ),
@@ -94,4 +118,39 @@ class MyThemeApp{
 
   );
 }
-/// " gradlew signingReport " to generate SH1
+
+
+
+/// " gradlew signingReport " ==> TO GENERATE SH1 FOR FIREBASE
+
+
+///       LayoutBuilder(
+///          builder: (_, constraints){
+///            return SingleChildScrollView(
+///              physics: const BouncingScrollPhysics(),
+///          child: ConstrainedBox(
+///            constraints: BoxConstraints(
+///                minWidth: constraints.maxWidth,
+///                minHeight: constraints.maxHeight
+///            ),
+///            child: IntrinsicHeight(
+///              child: ,
+///            ),
+///          ),
+///        );
+///          }
+///      )
+
+
+
+///    CustomScrollView(
+///        physics: const BouncingScrollPhysics(),
+///        slivers: [
+///          SliverFillRemaining(
+///            hasScrollBody: false,
+///            child:,
+///          ),
+///        ],
+///      ),
+
+

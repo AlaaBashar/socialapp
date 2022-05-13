@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
         ChangeNotifierProvider<RegisterProvider>(create: (_) => RegisterProvider()),
         ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
+        ChangeNotifierProvider<EditUserDate>(create: (_) => EditUserDate()),
 
       ],
       child: MaterialApp(

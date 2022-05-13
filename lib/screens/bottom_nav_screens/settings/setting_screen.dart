@@ -10,9 +10,10 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
+  UserModel? userData = Auth.currentUser;
   @override
   Widget build(BuildContext context) {
-    var userData = Auth.currentUser;
+
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
@@ -47,7 +48,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     child: CircleAvatar(
                       radius: 55.0,
-                      backgroundImage: NetworkImage('${userData.image}'),
+                      backgroundImage: NetworkImage('${userData!.image}'),
                     ),
                   ),
                 ],
@@ -56,12 +57,12 @@ class _SettingScreenState extends State<SettingScreen> {
             const SizedBox(
               height: 5.0,
             ),
-            Text('${userData.name}',
+            Text('${userData!.name}',
                 style: Theme.of(context).textTheme.bodyText1),
             const SizedBox(
               height: 5.0,
             ),
-            Text('${userData.bio}', style: Theme.of(context).textTheme.caption),
+            Text('${userData!.bio}', style: Theme.of(context).textTheme.caption),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Row(
@@ -160,8 +161,16 @@ class _SettingScreenState extends State<SettingScreen> {
       ),
     );
   }
-
-  void onEditSettings({UserModel? userData}) {
-    openNewPage(context,  EditSettingsScreen(userData: userData!,));
+  void loadUserData() async {
+    userData = await Api.getUserFromUid(uid:userData!.uid);
+    setState(() {});
+  }
+  void onEditSettings({UserModel? userData})  {
+     openNewPage(context,  EditSettingsScreen(userData: userData!,)).then((value) {
+      if(value == true){
+        debugPrint(value.toString());
+        loadUserData();
+      }
+    });
   }
 }

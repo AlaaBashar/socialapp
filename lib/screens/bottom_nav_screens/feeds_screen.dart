@@ -64,6 +64,7 @@ class FeedsScreen extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: Column(
         children:  [
+
           Row(
             children:[
               Container(

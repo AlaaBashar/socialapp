@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
       openNewPage(context, const LoginScreen(), popPreviousPages: true);
     }
     else {
-      UserModel? userLogin = await Api.getUserFromUid(user.uid ?? '');
+      UserModel? userLogin = await Api.getUserFromUid(uid: user.uid ?? '');
 
       if (userLogin == null) return;
 

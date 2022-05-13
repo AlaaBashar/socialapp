@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
-import '../../export_feature.dart';
+import '../../../export_feature.dart';
 
 class RegisterProvider with ChangeNotifier, DiagnosticableTreeMixin {
   static RegisterProvider watch(context) => Provider.of(context,); ///watch-function ///get variables
