@@ -23,7 +23,7 @@ class EditUserDate with ChangeNotifier, DiagnosticableTreeMixin {
     String? imageUrl;
     String? coverUrl;
 
-    ProgressLinearDialog.show(context: context, title: 'Editing in progress');
+    ProgressLinearDialog.show(context, title: 'Editing in progress');
     if (profileImage != null) {
       imageUrl = await Storage.uploadUserImage(image: profileImage)
           .catchError((onError) {

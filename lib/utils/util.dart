@@ -101,9 +101,9 @@ class ProgressCircleDialog {
 }
 class ProgressLinearDialog {
   static bool _isShow = false;
-  static show({
+  static show(
     BuildContext? context,
-    String? title,
+      {String? title,
   }) {
     showDialog(
         context: context!,
@@ -255,11 +255,12 @@ Widget getCenterCircularProgress(
   );
 }
 
-void showSnackBar(BuildContext context, String value,
-    {bool isError = false,
-      bool isSuccess = false,
-      Duration? duration,
-      SnackBarAction? snackBarAction}) {
+void showSnackBar(BuildContext context, String value,{
+  bool isError = false,
+  bool isSuccess = false,
+  Duration? duration,
+  SnackBarAction? snackBarAction,
+}) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(
       value,

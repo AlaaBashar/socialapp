@@ -34,10 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           icon: const Icon(MyFlutterApp.search),
         ),
+          IconButton(
+            onPressed: () {
+              ChangeMode.read(context).changeAppMode();
+            },
+            icon: Icon(context.watch<ChangeMode>().modeIcon),
+          ),
         ],),
-
-
-
       body:homeWatch.bottomNav[homeWatch.currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) => homeRead.onChangeIndexOfNav(index: index,context: context),
@@ -70,23 +73,23 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class NavDrawer extends StatefulWidget {
-
   const NavDrawer({Key? key}) : super(key: key);
 
   @override
   State<NavDrawer> createState() => _NavDrawerState();
 }
 class _NavDrawerState extends State<NavDrawer> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
+
         children: [
           DrawerHeader(
             decoration: const BoxDecoration(
@@ -98,14 +101,18 @@ class _NavDrawerState extends State<NavDrawer> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children:  [
-                    const Spacer(flex: 1,),
+                  children: [
+                    const Spacer(
+                      flex: 1,
+                    ),
                     const Icon(
                       Icons.account_circle,
                       color: Colors.white,
                       size: 40,
                     ),
-                    const Spacer(flex: 2,),
+                    const Spacer(
+                      flex: 2,
+                    ),
                     Text(
                       "${Auth.currentUser!.name}",
                       style: const TextStyle(
@@ -113,7 +120,9 @@ class _NavDrawerState extends State<NavDrawer> {
                         fontSize: 16,
                       ),
                     ),
-                    const Spacer(flex: 4,),
+                    const Spacer(
+                      flex: 4,
+                    ),
                     IconButton(
                       onPressed: () {
                         ChangeMode.read(context).changeAppMode();
@@ -129,8 +138,6 @@ class _NavDrawerState extends State<NavDrawer> {
                     fontSize: 10,
                   ),
                 ),
-
-
               ],
             ),
           ),
@@ -159,7 +166,4 @@ class _NavDrawerState extends State<NavDrawer> {
     ProgressCircleDialog.dismiss(context);
     openNewPage(context, const SplashScreen());
   }
-
-
-
 }

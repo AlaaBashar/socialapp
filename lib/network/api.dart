@@ -27,8 +27,7 @@ class Api {
         await db.collection(CollectionsFireStoreKeys.USERS).doc(uid).get();
 
     if (documentSnapshot.data() != null) {
-      Map<String, dynamic>? map =
-          documentSnapshot.data() as Map<String, dynamic>?;
+      Map<String, dynamic>? map = documentSnapshot.data() as Map<String, dynamic>?;
       UserModel userApp = UserModel.fromJson(map!);
 
       Auth.updateUserInPref(userApp);
@@ -47,6 +46,19 @@ class Api {
      return Future.error(onError.toString());
     }
   }
+
+  static Future<List<PostModel>> getPosts() async {
+    List<PostModel> postsList = [];
+    QuerySnapshot querySnapshot = await db.collection(CollectionsFireStoreKeys.POSTS).get();
+    postsList = querySnapshot.docs.map((e) => PostModel.fromJson(e.data() as Map<String, dynamic>)).toList();
+    if (postsList.isNotEmpty) {
+      postsList.sort((a, b) => b.date!.compareTo(a.date!));
+    }
+
+    return postsList;
+  }
+
+
 
   static Future<dynamic> uploadPost({required PostModel postModel,}) async {
     try {

@@ -64,7 +64,7 @@ class DefaultTextFieldWidget extends StatelessWidget {
     this.hintText,
     required this.controller,
     this.isObscure,
-    required this.validator,
+     this.validator,
     this.icon,
     this.height,
     this.horizontalPadding,
@@ -101,7 +101,13 @@ class DefaultTextFieldWidget extends StatelessWidget {
             controller: controller,
             keyboardType: TextInputType.multiline,
             maxLines: null,
-            inputFormatters: [],
+            inputFormatters: [
+            ///BlacklistingTextInputFormatter(RegExp('[^[a-zA-Z0-9_ ]*$ ]')),
+            ///Leading whitespace
+            FilteringTextInputFormatter.deny(RegExp(r'^[\s]+')),
+            ///Trailing whitespace:
+            ///FilteringTextInputFormatter.deny(RegExp(r'[\s]+$')),
+          ],
             obscureText: isObscure ?? false,
             onChanged: onSubmit,
             decoration: InputDecoration(

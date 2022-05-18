@@ -15,7 +15,8 @@ class Storage{
 
 
   static Future<String?> uploadUserImage({required File? image}) async {
-    final ref = _storage.ref().child('${CollectionsStorageKeys.USERS}/${Uri.file(image!.path).pathSegments.last}');
+    final String? filePath = Uri.file(image!.path).pathSegments.last;
+    final ref = _storage.ref().child('${CollectionsStorageKeys.USERS}/$filePath}');
     try {
       TaskSnapshot? upImage = await ref.putFile(image);
       String? url = await upImage.ref.getDownloadURL();
@@ -28,7 +29,6 @@ class Storage{
       debugPrint(error.toString());
       return Future.error(error.toString());
     }
-
 
     // _storage.ref().child('users/${Uri
     //     .file(image.path)

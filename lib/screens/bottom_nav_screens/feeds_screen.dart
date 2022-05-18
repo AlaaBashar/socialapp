@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../export_feature.dart';
 
@@ -38,17 +39,37 @@ class FeedsScreen extends StatelessWidget {
               ],
             ),
           ),
-          ListView.separated(
-            physics: const ScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 10,
-            separatorBuilder: (context, index) => const SizedBox(
-              height: 10.0,
-            ),
-            itemBuilder: (context, index) {
-              return buildPostItem(context);
+          StreamBuilder<QuerySnapshot>(
+            stream: Api.db.collection(CollectionsFireStoreKeys.POSTS).snapshots(),
+            builder: (context,snapshot) {
+              if(!snapshot.hasData){
+                return getCenterCircularProgress();
+              }
+              List<QueryDocumentSnapshot<Object?>> postList = snapshot.data!.docs;
+              return ListView.separated(
+                physics: const ScrollPhysics(),
+                shrinkWrap: true,
+                itemCount:postList.length,
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 10.0,
+                ),
+                itemBuilder: (context, index) {
+                  return buildPostItem(context,postList[index]);
+                },
+              );
             },
           ),
+          // ListView.separated(
+          //   physics: const ScrollPhysics(),
+          //   shrinkWrap: true,
+          //   itemCount: 10,
+          //   separatorBuilder: (context, index) => const SizedBox(
+          //     height: 10.0,
+          //   ),
+          //   itemBuilder: (context, index) {
+          //     return buildPostItem(context);
+          //   },
+          // ),
           const SizedBox(height: 10.0,),
 
         ],
@@ -56,24 +77,25 @@ class FeedsScreen extends StatelessWidget {
     );
   }
 
-  Widget buildPostItem(context) =>Card(
+  Widget buildPostItem(context, QueryDocumentSnapshot? postList) =>Card(
+
     clipBehavior: Clip.antiAliasWithSaveLayer,
     margin: const EdgeInsets.all(8.0),
     elevation: 6.0,
     child:  Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        children:  [
-
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:[
           Row(
             children:[
               Container(
                 width: 50.0,
                 height: 50.0,
-                decoration: const BoxDecoration(
+                decoration:  BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: CachedNetworkImageProvider('https://img.freepik.com/free-photo/natural-beautiful-girl-promoter-demonstrates-discounts-nice-offer-blank-space-upwards-points-index-finger-has-smile-with-dimples-cheeks_273609-38800.jpg?w=740&t=st=1652023741~exp=1652024341~hmac=0967b2bba0bb98956241965e7dacce519b13aab0e75722e8c32f2973fce52fcd'),
+                    image: CachedNetworkImageProvider('${postList!['user']['image']}'),
                   ),
                 ),
               ),
@@ -83,15 +105,14 @@ class FeedsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
                     Row(
-                      children: const[
-                        Text('Alaa Lahlouh',style: TextStyle(height: 1.4),),
-                        SizedBox(width: 6.0,),
-
-                        Icon(Icons.check_circle,color: Colors.blue,size: 18.0,)
+                      children: [
+                        Text('${postList['user']['name']}',style: const TextStyle(height: 1.4),),
+                        const SizedBox(width: 6.0,),
+                        const Icon(Icons.check_circle,color: Colors.blue,size: 18.0,)
 
                       ],
                     ),
-                    Text('January 21, 2022 at 11:00 pm',
+                    Text('${postList['date']}',
                       style: Theme.of(context).textTheme.caption!.copyWith(height: 1.4),
                     ),
 
@@ -100,9 +121,6 @@ class FeedsScreen extends StatelessWidget {
               ),
               const SizedBox(width: 10.0,),
               IconButton(onPressed: (){}, icon: const Icon(MyFlutterApp.more_horiz,size: 18.0,),),
-
-
-
             ],
           ),
           Padding(
@@ -113,11 +131,11 @@ class FeedsScreen extends StatelessWidget {
               color: Colors.grey[300],
             ),
           ),
-          Text('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five',
+          Text('${postList['postContent']}',
             style: Theme.of(context).textTheme.subtitle1,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 5.0,bottom: 10.0),
+            padding: const EdgeInsets.only(top: 5.0,),
             child: SizedBox(
               width: double.infinity,
               child: Wrap(
@@ -164,17 +182,18 @@ class FeedsScreen extends StatelessWidget {
                 ],),
             ),
           ),
-          Container(
-            height: 160.0,
-            width: double.infinity,
-            decoration:  BoxDecoration(
-              borderRadius: BorderRadius.circular(4.0),
-              image:const DecorationImage(
-                fit: BoxFit.cover,
-                image: CachedNetworkImageProvider('https://img.freepik.com/free-photo/calm-handsome-bearded-caucasian-man-with-curious-expression-points-thumb-aside-blank-space-demonstrates-good-promo-place-your-advertising-wears-hoodie-poses-yellow-wall_273609-42131.jpg?w=1060&t=st=1652027475~exp=1652028075~hmac=d748afab2e433d0c9d4f52f3e571c59b695b27195276c85d96b11ef406835256'),
-
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Container(
+              height: 160.0,
+              width: double.infinity,
+              decoration:  BoxDecoration(
+                borderRadius: BorderRadius.circular(4.0),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: CachedNetworkImageProvider('${postList['postImage']}'),
+                ),
               ),
-
             ),
           ),
           Padding(
@@ -222,7 +241,6 @@ class FeedsScreen extends StatelessWidget {
           ),
           Row(
             children:[
-
               Expanded(
                 child: InkWell(
                   onTap:(){},
@@ -231,10 +249,10 @@ class FeedsScreen extends StatelessWidget {
                       Container(
                         width: 35.0,
                         height: 35.0,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: CachedNetworkImageProvider('https://img.freepik.com/free-photo/natural-beautiful-girl-promoter-demonstrates-discounts-nice-offer-blank-space-upwards-points-index-finger-has-smile-with-dimples-cheeks_273609-38800.jpg?w=740&t=st=1652023741~exp=1652024341~hmac=0967b2bba0bb98956241965e7dacce519b13aab0e75722e8c32f2973fce52fcd'),
+                            image: CachedNetworkImageProvider('${postList['user']['image']}'),
                           ),
                         ),
                       ),

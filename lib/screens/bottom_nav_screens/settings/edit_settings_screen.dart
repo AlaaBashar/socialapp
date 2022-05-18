@@ -8,7 +8,6 @@ class EditSettingsScreen extends StatefulWidget {
   final UserModel userData;
   const EditSettingsScreen({Key? key, required this.userData}) : super(key: key);
 
-
   @override
   State<EditSettingsScreen> createState() => _EditSettingsScreenState();
 }
@@ -19,9 +18,9 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
   var phoneController = TextEditingController();
   var bioController = TextEditingController();
   var idController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   File? profileImage;
   File? coverImage;
+  final _formKey = GlobalKey<FormState>();
 
 
   @override
@@ -35,7 +34,6 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
     idController.text = widget.userData.id.toString();
   });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
