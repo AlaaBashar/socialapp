@@ -75,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             suffixIcon: Icons.visibility,
                             suffixOnPressed: suffixOnPressed,
                             isSuffixShow: true,
-                            isObscure: true,
+                            isObscure: false,
                             height: 60.0,
                             controller: passwordController,
                             hintText: 'Password',

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../export_feature.dart';
@@ -23,7 +24,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: DefaultAppbar(
-
         title: 'Create Post',
         actions: [
           TextButton(
@@ -47,144 +47,147 @@ class _NewPostScreenState extends State<NewPostScreen> {
               key: _formKey,
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 50.0,
-                          height: 50.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: CachedNetworkImageProvider(
-                                  '${userData!.image}'),
+                child: FadeInUp(
+                  child: Column(
+
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 50.0,
+                            height: 50.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: CachedNetworkImageProvider(
+                                    '${userData!.image}'),
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 20.0,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${userData!.name}',
-                                style: const TextStyle(height: 1.4),
-                              ),
-                              const SizedBox(
-                                width: 6.0,
-                              ),
-                              Text(
-                                'Public',
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .caption!
-                                    .copyWith(height: 1.4),
-                              ),
-                            ],
+                          const SizedBox(
+                            width: 20.0,
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15.0,
-                    ),
-                    Expanded(
-                      child: DefaultTextFieldWidget(
-                        hintText: 'what is on your mind ...',
-                        controller: postController,
-
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            showSnackBar(context, 'Post must not be empty',);
-                            return '';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    postImage != null
-                        ? Padding(
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Stack(
-                              alignment: AlignmentDirectional.topEnd,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  height: 180.0,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(4.0),
-                                    ),
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: FileImage(postImage!),
+                                Text(
+                                  '${userData!.name}',
+                                  style: const TextStyle(height: 1.4),
+                                ),
+                                const SizedBox(
+                                  width: 6.0,
+                                ),
+                                Text(
+                                  'Public',
+                                  style: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .caption!
+                                      .copyWith(height: 1.4),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 15.0,
+                      ),
+                      Expanded(
+                        child: DefaultTextFieldWidget(
+                          hintText: 'what is on your mind ...',
+                          controller: postController,
+
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              showSnackBar(context, 'Post must not be empty',);
+                              return '';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      postImage != null
+                          ? Padding(
+                        padding:
+                        const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Stack(
+                                alignment: AlignmentDirectional.topEnd,
+                                children: [
+                                  Container(
+                                    height: 180.0,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(4.0),
+                                      ),
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: FileImage(postImage!),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        postImage = null;
-                                      });
-                                    },
-                                    child: const Icon(
+                                  InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          postImage = null;
+                                        });
+                                      },
+                                      child:  Icon(
 
-                                      Icons.clear,
-                                      size: 24.0,
-                                      color: Colors.white,
-                                    )),
-                              ],
+                                        Icons.clear,
+                                        size: 24.0,
+                                        color: Colors.grey.shade800,
+                                      )),
+                                ],
+                              ),
+                            )
+                          : Padding(
+                        padding:
+                        const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Container(
+                          height: 180.0,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade400,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(4.0),
                             ),
-                          )
-                        : Padding(
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Container(
-                        height: 180.0,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade400,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(4.0),
                           ),
-                        ),
-                        child: Icon(Icons.image, size: 50.0, color: Theme
-                            .of(context)
-                            .scaffoldBackgroundColor,),
+                          child: Icon(Icons.image, size: 50.0, color: Theme
+                              .of(context)
+                              .scaffoldBackgroundColor,),
 
+                        ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextButton(
-                            onPressed: addPhoto,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Icon(MyFlutterApp.image_1),
-                                SizedBox(
-                                  width: 8.0,
-                                ),
-                                Text('add photo'),
-                              ],
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextButton(
+                              onPressed: addPhoto,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(MyFlutterApp.image_1),
+                                  SizedBox(
+                                    width: 8.0,
+                                  ),
+                                  Text('add photo'),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: TextButton(
-                            onPressed: addTags,
-                            child: const Text('# tags'),
+                          Expanded(
+                            child: TextButton(
+                              onPressed: addTags,
+                              child: const Text('# tags'),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -194,6 +197,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   }
 
   void onPost() async {
+   PostLikes? postLikes;
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -215,17 +219,28 @@ class _NewPostScreenState extends State<NewPostScreen> {
       ..postContent = postContent
       ..date = DateTime.now()
       ..postImage = postUrl ?? '';
-      await Api.uploadPost(postModel: postModel);
+
+    await Api.setPost(postModel: postModel).catchError((onError) {
+      debugPrint(onError.toString());
+      showSnackBar(context, onError.toString());
+      ProgressLinearDialog.dismiss(context);
+    });
+
+    Navigator.pop(context,true);
     ProgressLinearDialog.dismiss(context);
+
+
 
 
   }
 
   void addPhoto() async {
-    postImage = await Storage.getGalleryImage(image: postImage)
-        .catchError((onError) {
-      showSnackBar(context, onError.toString());
-    });
+      postImage = await Storage.getGalleryImage(image: postImage)
+          .catchError((onError) {
+        showSnackBar(context, onError.toString());
+      }) ?? postImage;
+
+
     setState(() {});
   }
 

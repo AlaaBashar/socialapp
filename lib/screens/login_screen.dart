@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           DefaultTextFieldWidget(
                             suffixOnPressed: suffixOnPressed,
-                            isObscure: LoginProvider.watch(context).isVisible,
+                            isObscure: false,///LoginProvider.watch(context).isVisible,
                             isSuffixShow: true,
                             suffixIcon: LoginProvider.watch(context).modeIcon,
                             height: 60.0,

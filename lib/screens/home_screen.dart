@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../export_feature.dart';
@@ -9,21 +10,53 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin  {
+
+  late final AnimationController controller;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      reverseDuration: const Duration(milliseconds: 500),
+      vsync:this,
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     var homeRead = HomeProvider.read(context);
     var homeWatch = HomeProvider.watch(context);
+    bool expanded = true;
+
     return Scaffold(
       drawer:const NavDrawer(),
+      onDrawerChanged: (onDrawerChanged){
+        debugPrint('onDrawerChanged? $onDrawerChanged');
+        onDrawerChanged ? controller.forward(): controller.reverse();
+        setState(() {});
+
+      },
       appBar: DefaultAppbar(
         titlesList: homeWatch.titles,
         titlesIndex: homeWatch.currentIndex,
+        leading: Builder(builder: (context){
+          return IconButton(
+              icon: AnimatedIcon(
+
+                icon: AnimatedIcons.menu_home,
+                progress: controller,
+                semanticLabel: 'Show menu',
+              ),
+              onPressed: () {
+                expanded ? controller.forward() : controller.reverse();
+                expanded = !expanded;
+                Scaffold.of(context).openDrawer();
+            },
+          );
+        },
+        ),
         actions: [
           IconButton(
             onPressed: () {},
@@ -46,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: (index) => homeRead.onChangeIndexOfNav(index: index,context: context),
         currentIndex: homeWatch.currentIndex,
         items: const [
+
           BottomNavigationBarItem(
             icon: Icon(MyFlutterApp.home_2),
             label: 'Home',
@@ -78,6 +112,7 @@ class NavDrawer extends StatefulWidget {
   @override
   State<NavDrawer> createState() => _NavDrawerState();
 }
+
 class _NavDrawerState extends State<NavDrawer> {
   @override
   void initState() {
@@ -89,7 +124,6 @@ class _NavDrawerState extends State<NavDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
-
         children: [
           DrawerHeader(
             decoration: const BoxDecoration(
@@ -100,6 +134,7 @@ class _NavDrawerState extends State<NavDrawer> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
+
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Spacer(

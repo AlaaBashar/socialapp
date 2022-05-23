@@ -21,6 +21,7 @@ export 'network/storage.dart';
 ///MODELS
 export 'models/user_model.dart';
 export 'models/post_model.dart';
+export 'models/post_like_model.dart';
 
 ///HELPER
 export 'helper/image_helper.dart';

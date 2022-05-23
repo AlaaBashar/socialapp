@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -47,144 +48,146 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
           const SizedBox(width: 15.0,),
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 230.0,
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Stack(
-                      alignment: AlignmentDirectional.topEnd,
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            height: 180.0,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(4.0),
-                                topLeft: Radius.circular(4.0),
-                              ),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image:coverImage == null
-                                    ?CachedNetworkImageProvider('${widget.userData.cover}'):FileImage(coverImage!) as ImageProvider
+      body: FadeInUp(
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 230.0,
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Stack(
+                        alignment: AlignmentDirectional.topEnd,
+                        children: [
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              height: 180.0,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(4.0),
+                                  topLeft: Radius.circular(4.0),
+                                ),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image:coverImage == null
+                                      ?CachedNetworkImageProvider('${widget.userData.cover}'):FileImage(coverImage!) as ImageProvider
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        IconButton(
-                          iconSize: 15.0,
-                          onPressed: getCoverImage,
-                          icon: CircleAvatar(
-                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                              child: const Icon(Icons.camera_enhance,)),
-                        )
-                      ],
-                    ),
-                    Stack(
-                      alignment: AlignmentDirectional.bottomEnd,
-                      children: [
-                        CircleAvatar(
-                          radius: 60.0,
-                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                          child: CircleAvatar(
-                            radius: 55.0,
-                            backgroundImage: profileImage == null
-                                ? NetworkImage('${widget.userData.image}')
-                                : FileImage(profileImage!) as ImageProvider,
+                          IconButton(
+                            iconSize: 15.0,
+                            onPressed: getCoverImage,
+                            icon: CircleAvatar(
+                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                child: const Icon(Icons.camera_enhance,)),
+                          )
+                        ],
+                      ),
+                      Stack(
+                        alignment: AlignmentDirectional.bottomEnd,
+                        children: [
+                          CircleAvatar(
+                            radius: 60.0,
+                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            child: CircleAvatar(
+                              radius: 55.0,
+                              backgroundImage: profileImage == null
+                                  ? NetworkImage('${widget.userData.image}')
+                                  : FileImage(profileImage!) as ImageProvider,
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          iconSize: 15.0,
-                          onPressed: getProfileImage,
-                          icon: CircleAvatar(
-                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                              child: const Icon(Icons.camera_enhance,)),
-                        ),
-                      ],
-                    ),
-                  ],
+                          IconButton(
+                            iconSize: 15.0,
+                            onPressed: getProfileImage,
+                            icon: CircleAvatar(
+                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                child: const Icon(Icons.camera_enhance,)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 5.0,
-              ),
-              DefaultTextFieldWidget(
-                controller: nameController,
-                suffixIcon: Icons.clear,
-                isSuffixShow: true,
-                suffixOnPressed:()=>nameController.clear(),
-                horizontalPadding: 20.0,
-                icon: const Icon(MyFlutterApp.user),
-                validator: (String? value)  {
-                  if (value!.isEmpty) {
-                    return 'Name must be not empty';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 16.0,
-              ),
-              DefaultTextFieldWidget(
-                controller: phoneController,
-                horizontalPadding: 20.0,
-                suffixIcon: Icons.clear,
-                isSuffixShow: true,
-                suffixOnPressed:()=>phoneController.clear(),
-                icon: const Icon(MyFlutterApp.phone),
-                validator: (String? value)  {
-                  if (value!.isEmpty) {
-                    return 'Phone must be not empty';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 16.0,
-              ),
-              DefaultTextFieldWidget(
-                controller: bioController,
-                horizontalPadding: 20.0,
-                suffixIcon: Icons.clear,
-                isSuffixShow: true,
-                suffixOnPressed:()=>bioController.clear(),
-                icon: const Icon(MyFlutterApp.info_circle),
-                validator: (String? value)  {
-                  if (value!.isEmpty) {
-                    return 'Bio must be not empty';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 16.0,
-              ),
-              DefaultTextFieldWidget(
-                controller: idController,
-                horizontalPadding: 20.0,
-                suffixIcon: Icons.clear,
-                isSuffixShow: true,
-                suffixOnPressed:()=>idController.clear(),
-                icon: const Icon(Icons.credit_card),
-                validator: (String? value)  {
-                  if (value!.isEmpty) {
-                    return 'ID must be not empty';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 16.0,
-              ),
-            ],
+                const SizedBox(
+                  height: 5.0,
+                ),
+                DefaultTextFieldWidget(
+                  controller: nameController,
+                  suffixIcon: Icons.clear,
+                  isSuffixShow: true,
+                  suffixOnPressed:()=>nameController.clear(),
+                  horizontalPadding: 20.0,
+                  icon: const Icon(MyFlutterApp.user),
+                  validator: (String? value)  {
+                    if (value!.isEmpty) {
+                      return 'Name must be not empty';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                DefaultTextFieldWidget(
+                  controller: phoneController,
+                  horizontalPadding: 20.0,
+                  suffixIcon: Icons.clear,
+                  isSuffixShow: true,
+                  suffixOnPressed:()=>phoneController.clear(),
+                  icon: const Icon(MyFlutterApp.phone),
+                  validator: (String? value)  {
+                    if (value!.isEmpty) {
+                      return 'Phone must be not empty';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                DefaultTextFieldWidget(
+                  controller: bioController,
+                  horizontalPadding: 20.0,
+                  suffixIcon: Icons.clear,
+                  isSuffixShow: true,
+                  suffixOnPressed:()=>bioController.clear(),
+                  icon: const Icon(MyFlutterApp.info_circle),
+                  validator: (String? value)  {
+                    if (value!.isEmpty) {
+                      return 'Bio must be not empty';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                DefaultTextFieldWidget(
+                  controller: idController,
+                  horizontalPadding: 20.0,
+                  suffixIcon: Icons.clear,
+                  isSuffixShow: true,
+                  suffixOnPressed:()=>idController.clear(),
+                  icon: const Icon(Icons.credit_card),
+                  validator: (String? value)  {
+                    if (value!.isEmpty) {
+                      return 'ID must be not empty';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 16.0,
+                ),
+              ],
+            ),
           ),
         ),
       ),

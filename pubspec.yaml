@@ -41,6 +41,7 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   fluttertoast: ^8.0.9
   font_awesome_flutter: ^10.1.0
+  animate_do: ^2.1.0
 
   #StateMangment_Package
   provider: ^6.0.2

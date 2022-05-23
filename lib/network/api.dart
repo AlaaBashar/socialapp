@@ -1,9 +1,13 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:socialapp/export_feature.dart';
 
 class Api {
   static FirebaseFirestore db = FirebaseFirestore.instance;
+
 
   static Future<UserModel?> insertNewUser({
     required UserModel userApp,
@@ -47,20 +51,7 @@ class Api {
     }
   }
 
-  static Future<List<PostModel>> getPosts() async {
-    List<PostModel> postsList = [];
-    QuerySnapshot querySnapshot = await db.collection(CollectionsFireStoreKeys.POSTS).get();
-    postsList = querySnapshot.docs.map((e) => PostModel.fromJson(e.data() as Map<String, dynamic>)).toList();
-    if (postsList.isNotEmpty) {
-      postsList.sort((a, b) => b.date!.compareTo(a.date!));
-    }
-
-    return postsList;
-  }
-
-
-
-  static Future<dynamic> uploadPost({required PostModel postModel,}) async {
+  static Future<dynamic> setPost({required PostModel postModel,}) async {
     try {
       DocumentReference doc = db.collection(CollectionsFireStoreKeys.POSTS).doc();
       postModel.postUid = doc.id;
@@ -71,6 +62,56 @@ class Api {
     }
   }
 
+  static Future<List<PostModel>> getPosts() async {
+    List<PostModel>? postsList = [];
+    QuerySnapshot querySnapshot = await db.collection(CollectionsFireStoreKeys.POSTS).get();
+    postsList = querySnapshot.docs.map((e) {return PostModel.fromJson(e.data() as Map<String, dynamic>);}).toList();
+    if (postsList.isNotEmpty) {postsList.sort((a, b) => b.date!.compareTo(a.date!));}
+    return postsList;
+  }
+
+  // static Future<dynamic> setPostLike({required PostLikes postLikes,required String? postUid }) async {
+  //   try {
+  //     DocumentReference doc =  db
+  //         .collection(CollectionsFireStoreKeys.POSTS)
+  //         .doc(postUid)
+  //         .collection(CollectionsFireStoreKeys.LIKES)
+  //         .doc(Auth.currentUser!.uid);
+  //     postLikes.postUid = postUid;
+  //     await doc.set(postLikes.toJson());
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //     return Future.error(e.toString());
+  //   }
+  // }
+
+  // static Future<List<PostLikes>?> getPostLike() async {
+  //   try {
+  //     List<PostLikes> postsLikesList = [];
+  //     QuerySnapshot querySnapshot;
+  //     querySnapshot= await db
+  //         .collectionGroup(CollectionsFireStoreKeys.LIKES)
+  //         .where('uId', isEqualTo: Auth.currentUser!.uid)
+  //         .get();
+  //     postsLikesList = querySnapshot.docs.map((e) => PostLikes.fromJson(e.data() as Map<String, dynamic>)).toList();
+  //     return postsLikesList;
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //     return Future.error(e.toString());
+  //   }
+  // }
+
+
+  static Future<void> setPostLike(PostLikes postLikes,String? postUid) async {
+     await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
+       'likes': FieldValue.arrayUnion([postLikes.toJson()])
+     });
+  }
+  static Future<void> removePostLike(PostLikes postLikes,String? postUid) async {
+    await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
+      'likes': FieldValue.arrayRemove([postLikes.toJson()])
+    });
+  }
 
 
 }

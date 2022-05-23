@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+
 import '../export_feature.dart';
 
 
@@ -273,4 +275,8 @@ void showSnackBar(BuildContext context, String value,{
         ? Colors.green[800]
         : null,
   ));
+}
+String dataFormat({DateTime? date}){
+
+  return DateFormat('yyyy/MM/hh  hh:mm a').format(date!);
 }

@@ -207,6 +207,7 @@ class DefaultAppbar extends StatelessWidget with PreferredSizeWidget {
   final List<Widget>? actions;
   final List<String>? titlesList;
   final int? titlesIndex;
+  final Widget? leading;
 
   const DefaultAppbar({
     Key? key,
@@ -214,12 +215,14 @@ class DefaultAppbar extends StatelessWidget with PreferredSizeWidget {
     this.actions,
     this.titlesList,
     this.titlesIndex,
+    this.leading,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title:  Text(title ?? titlesList![titlesIndex!]),
       actions: actions,
+      leading: leading,
     );
   }
 
