@@ -24,6 +24,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: DefaultAppbar(
+
         title: 'Create Post',
         actions: [
           TextButton(
@@ -195,7 +196,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
   }
 
   void onPost() async {
-   PostLikes? postLikes;
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -218,7 +218,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
       ..date = DateTime.now()
       ..postImage = postUrl ?? '';
 
-    await Api.setPost(postModel: postModel).catchError((onError) {
+    await Api.setPost(postModel: postModel).then((value) {
+      loadPosts();
+      showSnackBar(context, 'Post published');
+
+    }).catchError((onError) {
       debugPrint(onError.toString());
       showSnackBar(context, onError.toString());
       ProgressLinearDialog.dismiss(context);
@@ -231,7 +235,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
 
 
   }
-
+  Future<void> loadPosts() async {
+      await Api.getPosts();
+    setState(() {});
+  }
   void addPhoto() async {
       postImage = await Storage.getGalleryImage(image: postImage)
           .catchError((onError) {

@@ -103,6 +103,7 @@ class Api {
 
 
   static Future<void> setPostLike(PostLikes postLikes,String? postUid) async {
+
      await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
        'likes': FieldValue.arrayUnion([postLikes.toJson()])
      });
@@ -110,6 +111,21 @@ class Api {
   static Future<void> removePostLike(PostLikes postLikes,String? postUid) async {
     await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
       'likes': FieldValue.arrayRemove([postLikes.toJson()])
+    });
+  }
+
+  static Future<void> setComments(PostCommentsModel postComments,String? postUid) async {
+    DocumentReference doc = db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid);
+    postComments.commentUid =doc.id;
+    await doc.update({
+      'comments': FieldValue.arrayUnion([postComments.toJson()])
+    });
+  }
+  static Future<void> removeComments(PostCommentsModel postComments,String? postUid) async {
+
+
+    await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
+      'comments': FieldValue.arrayRemove([postComments.toJson()])
     });
   }
 

@@ -11,6 +11,9 @@ export 'screens/bottom_nav_screens/chat_screen.dart';
 export 'screens/bottom_nav_screens/users_screen.dart';
 export 'screens/bottom_nav_screens/settings/setting_screen.dart';
 export 'screens/bottom_nav_screens/settings/edit_settings_screen.dart';
+///BOTTOM_SHEET_SCREEN
+export 'screens/bottom_sheet_screen/comments_sheet_screen.dart';
+
 
 
 ///NETWORK
@@ -22,6 +25,7 @@ export 'network/storage.dart';
 ///MODELS
 export 'models/user_model.dart';
 export 'models/post_model.dart';
+export 'models/post_comments_model.dart';
 export 'models/post_like_model.dart';
 
 ///HELPER

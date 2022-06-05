@@ -10,7 +10,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -24,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      key: _scaffoldKey,
       child: Scaffold(
         body: LayoutBuilder(
           builder: (
@@ -173,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
     LoginProvider.read(context).onLoginPro(
       email: email,
       password: password,
-      context: _scaffoldKey.currentContext,
+      context: context,
     );
   }
 }

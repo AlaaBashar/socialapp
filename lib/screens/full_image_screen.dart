@@ -15,9 +15,12 @@ class FullImageScreen extends StatefulWidget {
 }
 
 class _FullImageScreenState extends State<FullImageScreen> {
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key:scaffoldKey ,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SizedBox(
         width: double.infinity,
@@ -135,9 +138,12 @@ class _FullImageScreenState extends State<FullImageScreen> {
                 InkWell(
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
-                  onTap: () {},
+                  onTap: () {
+                    scaffoldKey.currentState!.showBottomSheet((context) => CommentsBottomSheet(postModel: widget.postModel,));
+                    setState(() {});
+                  },
                   child: Text(
-                    '0 comments',
+                    '${widget.postModel!.comments!.length} comments',
                     style: Theme.of(context).textTheme.caption,
                   ),
                 ),
@@ -147,7 +153,9 @@ class _FullImageScreenState extends State<FullImageScreen> {
                 InkWell(
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
-                  onTap: () {},
+                  onTap: () {
+
+                  },
                   child: Text(
                     '0 share',
                     style: Theme.of(context).textTheme.caption,

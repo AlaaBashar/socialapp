@@ -16,6 +16,8 @@ class TextFieldApp extends StatefulWidget {
   final bool readOnly;
   final int? maxLines;
   final Widget? icon;
+  final Color? fillColor;
+
   final EdgeInsets? margin;
   final TextAlign? textAlign;
   final VoidCallback? onActionComplete;
@@ -55,7 +57,7 @@ class TextFieldApp extends StatefulWidget {
         this.marginHorizontal = 15.0,
     this.borderRadius,
     this.showCursor = false,
-    this.height = 40.0, this.isExpands = false,
+    this.height = 40.0, this.isExpands = false, this.fillColor,
   }) : super(key: key);
 
   @override
@@ -173,9 +175,9 @@ class _TextFieldAppState extends State<TextFieldApp> {
                    ),
                  ),
                  filled: true,
-                 fillColor:Theme.of(context).scaffoldBackgroundColor,
+                 fillColor: widget.fillColor ??Theme.of(context).scaffoldBackgroundColor,
                  prefixIcon: widget.icon,
-                 suffixIcon: widget.suffixIcon == null ? null : Padding(padding: const EdgeInsets.all(12.0), child: widget.suffixIcon,),
+                 suffixIcon: widget.suffixIcon == null ? null : Padding(padding: const EdgeInsets.all(0.0), child: widget.suffixIcon,),
                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
                ),
             ),

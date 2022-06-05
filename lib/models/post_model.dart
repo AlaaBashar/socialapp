@@ -5,6 +5,7 @@ class PostModel {
   DateTime? date;
   UserModel? user;
   List<PostLikes>? likes= <PostLikes>[];
+  List<PostCommentsModel>? comments= <PostCommentsModel>[];
 
   PostModel({
     this.date,
@@ -14,7 +15,7 @@ class PostModel {
     this.postImage,
     this.postContent,
     this.likes,
-
+    this.comments,
   });
 
 
@@ -29,6 +30,11 @@ class PostModel {
         likes = [];
         List likesList = json['likes'] ?? [] ;
         likes = likesList.map((e) => PostLikes.fromJson(e)).toList();
+        comments = [];
+        List commentsList = json['comments'] ?? [] ;
+        comments = commentsList.map((e) => PostCommentsModel.fromJson(e)).toList();
+
+
 
   }
 
@@ -41,6 +47,7 @@ class PostModel {
       "date": date!.toIso8601String(),
       "user": user!.toJson() ,
       "likes" : [],
+      "comments" : [],
     };
   }
 }

@@ -327,8 +327,8 @@ class _FeedsScreenState extends State<FeedsScreen> {
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   onTap: () {
-                    scaffoldKey.currentState!.showBottomSheet((context) => const CommentsBottomSheet());
-
+                    scaffoldKey.currentState!.showBottomSheet((context) => CommentsBottomSheet(postModel: postModel,));
+                    setState(() {});
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -344,7 +344,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
                           width: 5.0,
                         ),
                         Text(
-                          '0 comments',
+                          '${postModel.comments!.length} comments',
                           style: Theme.of(context).textTheme.caption,
                         ),
                       ],
@@ -480,8 +480,6 @@ class _FeedsScreenState extends State<FeedsScreen> {
 
   }
 
-  void onComment(){}
-
   Future<void> loadPosts() async {
     postList = await Api.getPosts();
     setState(() {});
@@ -489,234 +487,5 @@ class _FeedsScreenState extends State<FeedsScreen> {
 
 }
 
-class CommentsBottomSheet extends StatefulWidget {
-  const CommentsBottomSheet({Key? key}) : super(key: key);
-
-  @override
-  State<CommentsBottomSheet> createState() => _CommentsBottomSheetState();
-}
-
-class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
-  var commentController = TextEditingController();
-
-
-  @override
-  Widget build(BuildContext context) {
-    return  SizedBox(
-      height: getScreenHeight(context) * 0.8,
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            leading:InkWell(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onTap: () {},
-              child: Row(
-                children: [
-                  const SizedBox(width: 12.0,),
-                  const Icon(
-                    MyFlutterApp.heart,
-                    size: 16.0,
-                    color: Colors.redAccent,
-                  ),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  Text(
-                    '1200',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  const Icon(Icons.arrow_forward_ios_outlined,size: 20.0,),
-
-
-                ],
-              ),
-            ),
-            leadingWidth: 100.0,
-            actions: const[
-              Icon(
-                MyFlutterApp.heart_empty,
-                size: 16.0,
-                color: Colors.redAccent,
-              ),
-              SizedBox(width: 12.0,),
-
-            ],
-
-          ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child:SizedBox(
-              height: 1 ,
-              child: SingleChildScrollView(
-                physics:const BouncingScrollPhysics() ,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index){
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const CircleAvatarWidget(
-                            radius: 22.0,
-                            showBackgroundImage: true,
-                            backgroundImageUrl: 'https://img.freepik.com/free-photo/calm-handsome-bearded-caucasian-man-with-curious-expression-points-thumb-aside-blank-space-demonstrates-good-promo-place-your-advertising-wears-hoodie-poses-yellow-wall_273609-42131.jpg?w=1060&t=st%3D1652027475~exp%3D1652028075~hmac%3Dd748afab2e433d0c9d4f52f3e571c59b695b27195276c85d96b11ef406835256',
-                          ),
-                          Expanded(
-                            child: Card(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              margin:  const EdgeInsets.all(8.0),
-                              elevation: 6.0,
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text('Name'),
-                                    SizedBox(height: 16.0,),
-                                    Text('NameNameNaNameNameNameNameNameNameNameNameNameNameNameNameNameNameNamNameNameNaNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNamemeNameNameNaNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNamemeNameNameNaNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNamemeNameNameNaNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNamemeeNameNameNameme '),
-
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-
-                        ],
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(height: 10.0,);
-                    },
-                    itemCount: 10,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-
-class ssdssa extends StatelessWidget {
-  const ssdssa({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        SliverAppBar(
-          leading:InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {},
-            child: Row(
-              children: [
-                const SizedBox(width: 12.0,),
-                const Icon(
-                  MyFlutterApp.heart,
-                  size: 16.0,
-                  color: Colors.redAccent,
-                ),
-                const SizedBox(
-                  width: 5.0,
-                ),
-                Text(
-                  '1200',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                const SizedBox(
-                  width: 5.0,
-                ),
-                const Icon(Icons.arrow_forward_ios_outlined,size: 20.0,),
-
-
-              ],
-            ),
-          ),
-          leadingWidth: 100.0,
-          actions: const[
-            Icon(
-              MyFlutterApp.heart_empty,
-              size: 16.0,
-              color: Colors.redAccent,
-            ),
-            SizedBox(width: 12.0,),
-
-          ],
-
-        ),
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child:SizedBox(
-            height: 1 ,
-            child: SingleChildScrollView(
-              physics:const BouncingScrollPhysics() ,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index){
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const CircleAvatarWidget(
-                          radius: 22.0,
-                          showBackgroundImage: true,
-                          backgroundImageUrl: 'https://img.freepik.com/free-photo/calm-handsome-bearded-caucasian-man-with-curious-expression-points-thumb-aside-blank-space-demonstrates-good-promo-place-your-advertising-wears-hoodie-poses-yellow-wall_273609-42131.jpg?w=1060&t=st%3D1652027475~exp%3D1652028075~hmac%3Dd748afab2e433d0c9d4f52f3e571c59b695b27195276c85d96b11ef406835256',
-                        ),
-                        Expanded(
-                          child: Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            margin:  const EdgeInsets.all(8.0),
-                            elevation: 6.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text('Name'),
-                                  SizedBox(height: 16.0,),
-                                  Text('NameNameNaNameNameNameNameNameNameNameNameNameNameNameNameNameNameNamNameNameNaNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNamemeNameNameNaNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNamemeNameNameNaNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNamemeNameNameNaNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNameNamemeeNameNameNameme '),
-
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-
-                      ],
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: 10.0,);
-                  },
-                  itemCount: 10,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 
