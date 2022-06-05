@@ -35,6 +35,7 @@ dependencies:
   shared_preferences: ^2.0.13
   lint: ^1.8.2
   image_picker: ^0.8.5+1
+  share_plus: ^4.0.4
 
   #Widget_Package
   cached_network_image: ^3.2.0
@@ -42,6 +43,7 @@ dependencies:
   fluttertoast: ^8.0.9
   font_awesome_flutter: ^10.1.0
   animate_do: ^2.1.0
+  full_screen_image: ^1.0.2
 
   #StateMangment_Package
   provider: ^6.0.2

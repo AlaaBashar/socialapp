@@ -10,6 +10,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -22,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      key: _scaffoldKey,
       child: Scaffold(
         body: LayoutBuilder(
           builder: (
@@ -29,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
             BoxConstraints constraints,
           ) {
             return SingleChildScrollView(
+
               physics: const AlwaysScrollableScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
@@ -63,36 +67,56 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(
                             height: 25.0,
                           ),
-                          DefaultTextFieldWidget(
-                            isSuffixShow: true,
-                            suffixIcon: Icons.clear,
-                            suffixOnPressed: () => emailController.clear(),
+                            TextFieldApp(
+                            height: 60.0,
                             controller: emailController,
                             hintText: 'Email Address',
+                            isRTL: false,
+                            showCursor: true,
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () => emailController.clear(),
+                            ),
                             icon: const Icon(Icons.email),
-                            height: 60.0,
+                            inputFormatters: [
+                              RegExpValidator.clearWhitespace
+                            ],
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Email Must Be Not Empty';
+                                ShowToastSnackBar.displayToast(message: 'Email Must Be Not Empty');
+                                return '';
+                              }
+                              if (!RegExpValidator.isValidEmail(email: value.toString()) && value.isNotEmpty) {
+                                ShowToastSnackBar.displayToast(message: 'Badly format of email');
+                                return '';
                               }
                               return null;
                             },
+
                           ),
+
                           const SizedBox(
                             height: 25.0,
                           ),
-                          DefaultTextFieldWidget(
-                            suffixOnPressed: suffixOnPressed,
-                            isObscure: false,///LoginProvider.watch(context).isVisible,
-                            isSuffixShow: true,
-                            suffixIcon: LoginProvider.watch(context).modeIcon,
+                          TextFieldApp(
                             height: 60.0,
                             controller: passwordController,
                             hintText: 'Password',
-                            icon: const Icon(Icons.lock),
+                            obscureText: LoginProvider.watch(context).isVisible,
+                            isRTL: false,
+                            showCursor: true,
+                            suffixIcon: IconButton(
+                              icon: Icon(LoginProvider.watch(context).modeIcon),
+                              onPressed: () => suffixOnPressed(),
+                            ),
+                              icon: const Icon(Icons.lock),
+                            inputFormatters: [
+                              RegExpValidator.clearWhitespace
+                            ],
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Password Must Be Not Empty';
+                                ShowToastSnackBar.displayToast(message: 'Password Must Be Not Empty');
+                                return '';
                               }
                               return null;
                             },
@@ -149,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
     LoginProvider.read(context).onLoginPro(
       email: email,
       password: password,
-      context: context,
+      context: _scaffoldKey.currentContext,
     );
   }
 }

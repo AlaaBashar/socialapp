@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../export_feature.dart';
@@ -43,4 +44,14 @@ class RegisterProvider with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
 
   }
+
+  bool? isVisible = true;
+  IconData? modeIcon =Icons.visibility_off;
+  void visibilitySuffix() {
+    isVisible = !isVisible!;
+    modeIcon = isVisible! ? Icons.visibility_off  :Icons.visibility ;
+    notifyListeners();
+  }
+
+
 }

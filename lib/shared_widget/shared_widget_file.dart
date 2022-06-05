@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../export_feature.dart';
+
 
 class DefaultButtonWidget extends StatelessWidget {
   final String? text;
@@ -45,7 +47,7 @@ class DefaultButtonWidget extends StatelessWidget {
   }
 }
 
-class DefaultTextFieldWidget extends StatelessWidget {
+class PostTextFieldWidget extends StatelessWidget {
   final String? hintText;
   final Color? hintTextColor;
   final double? height;
@@ -59,7 +61,7 @@ class DefaultTextFieldWidget extends StatelessWidget {
   final ValueChanged<String>? onSubmit;
   final IconData? suffixIcon;
 
-  const DefaultTextFieldWidget({
+  const PostTextFieldWidget({
     Key? key,
     this.hintText,
     required this.controller,
@@ -104,7 +106,7 @@ class DefaultTextFieldWidget extends StatelessWidget {
             inputFormatters: [
             ///BlacklistingTextInputFormatter(RegExp('[^[a-zA-Z0-9_ ]*$ ]')),
             ///Leading whitespace
-            FilteringTextInputFormatter.deny(RegExp(r'^[\s]+')),
+              RegExpValidator.beginWhitespace,
             ///Trailing whitespace:
             ///FilteringTextInputFormatter.deny(RegExp(r'[\s]+$')),
           ],
@@ -131,7 +133,8 @@ class DefaultTextFieldWidget extends StatelessWidget {
   }
 }
 
-Future showMyDialog({context, required String? title, required String? body}) async => showDialog(
+Future showMyDialog({context, required String? title, required String? body}) async =>
+    showDialog(
   context: context,
   //barrierDismissible: false, // user must tap button!
   builder: (BuildContext context) {
@@ -220,6 +223,7 @@ class DefaultAppbar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+
       title:  Text(title ?? titlesList![titlesIndex!]),
       actions: actions,
       leading: leading,

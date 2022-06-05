@@ -33,7 +33,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<RegisterProvider>(create: (_) => RegisterProvider()),
         ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
         ChangeNotifierProvider<EditUserDate>(create: (_) => EditUserDate()),
-
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

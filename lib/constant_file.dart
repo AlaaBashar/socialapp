@@ -33,6 +33,13 @@ class MyThemeApp{
           color: Colors.black,
           height: 1.3
       ),
+      headline1:  TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          height: 1.3
+      ),
+
 
     ),
     ///-----------------------------------------------------------------
@@ -87,6 +94,12 @@ class MyThemeApp{
           fontSize: 22.0,
           fontWeight: FontWeight.bold,
           color: Colors.white,
+          height: 1.3
+      ),
+      headline1:  TextStyle(
+          fontSize: 8.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
           height: 1.3
       ),
 

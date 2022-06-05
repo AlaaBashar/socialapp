@@ -49,7 +49,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 padding: const EdgeInsets.all(18.0),
                 child: FadeInUp(
                   child: Column(
-
                     children: [
                       Row(
                         children: [
@@ -95,10 +94,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                         height: 15.0,
                       ),
                       Expanded(
-                        child: DefaultTextFieldWidget(
+                        child: PostTextFieldWidget(
                           hintText: 'what is on your mind ...',
                           controller: postController,
-
                           validator: (String? value) {
                             if (value!.isEmpty) {
                               showSnackBar(context, 'Post must not be empty',);

@@ -109,7 +109,7 @@ class ProgressLinearDialog {
   }) {
     showDialog(
         context: context!,
-        builder: (_) =>  MaterialApp(
+        builder: (_) => MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Scaffold(
             backgroundColor: Colors.transparent,

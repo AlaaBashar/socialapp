@@ -116,75 +116,124 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 5.0,
+                  height: 12.0,
                 ),
-                DefaultTextFieldWidget(
-                  controller: nameController,
-                  suffixIcon: Icons.clear,
-                  isSuffixShow: true,
-                  suffixOnPressed:()=>nameController.clear(),
-                  horizontalPadding: 20.0,
-                  icon: const Icon(MyFlutterApp.user),
-                  validator: (String? value)  {
-                    if (value!.isEmpty) {
-                      return 'Name must be not empty';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                DefaultTextFieldWidget(
-                  controller: phoneController,
-                  horizontalPadding: 20.0,
-                  suffixIcon: Icons.clear,
-                  isSuffixShow: true,
-                  suffixOnPressed:()=>phoneController.clear(),
-                  icon: const Icon(MyFlutterApp.phone),
-                  validator: (String? value)  {
-                    if (value!.isEmpty) {
-                      return 'Phone must be not empty';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                DefaultTextFieldWidget(
-                  controller: bioController,
-                  horizontalPadding: 20.0,
-                  suffixIcon: Icons.clear,
-                  isSuffixShow: true,
-                  suffixOnPressed:()=>bioController.clear(),
-                  icon: const Icon(MyFlutterApp.info_circle),
-                  validator: (String? value)  {
-                    if (value!.isEmpty) {
-                      return 'Bio must be not empty';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                DefaultTextFieldWidget(
-                  controller: idController,
-                  horizontalPadding: 20.0,
-                  suffixIcon: Icons.clear,
-                  isSuffixShow: true,
-                  suffixOnPressed:()=>idController.clear(),
-                  icon: const Icon(Icons.credit_card),
-                  validator: (String? value)  {
-                    if (value!.isEmpty) {
-                      return 'ID must be not empty';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 16.0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Column(
+                    children: [
+                      TextFieldApp(
+                        height: 60.0,
+                        controller: nameController,
+                        hintText: 'Name',
+                        isRTL: false,
+                        showCursor: true,
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () => nameController.clear(),
+                        ),
+                        icon: const Icon(MyFlutterApp.user),
+                        inputFormatters: [
+                          RegExpValidator.insertEnglish,
+                          RegExpValidator.beginWhitespace,
+                        ],
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            ShowToastSnackBar.displayToast(message: 'Name Must Be Not Empty');
+                            return '';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      TextFieldApp(
+                        type: TextInputType.phone,
+                        height: 60.0,
+                        controller: phoneController,
+                        hintText: 'Phone',
+                        isRTL: false,
+                        showCursor: true,
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () => phoneController.clear(),
+                        ),
+                        icon: const Icon(MyFlutterApp.phone),
+                        inputFormatters: [
+                          RegExpValidator.clearWhitespace
+                        ],
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            ShowToastSnackBar.displayToast(message: 'Phone must be not empty');
+                            return '';
+                          }
+                          if (!RegExpValidator.isValidPhone(phone: value) && value.isNotEmpty) {
+                            ShowToastSnackBar.displayToast(message: 'At least 10 digit of phone');
+                            return '';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      TextFieldApp(
+                        height: 60.0,
+                        controller: bioController,
+                        hintText: 'Bio',
+                        isRTL: false,
+                        showCursor: true,
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () => bioController.clear(),
+                        ),
+                        icon: const Icon(MyFlutterApp.info_circle),
+                        inputFormatters: [
+                          RegExpValidator.beginWhitespace,
+                          RegExpValidator.insertEnglish
+                        ],
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            ShowToastSnackBar.displayToast(message: 'Bio must be not empty');
+                            return '';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      TextFieldApp(
+                        height: 60.0,
+                        type: TextInputType.number,
+                        controller: idController,
+                        hintText: 'Phone',
+                        isRTL: false,
+                        showCursor: true,
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () => idController.clear(),
+                        ),
+                        icon: const Icon(Icons.credit_card),
+                        inputFormatters: [
+                          RegExpValidator.clearWhitespace,
+                        ],
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            ShowToastSnackBar.displayToast(message: 'ID must be not empty');
+                            return '';
+                          }
+                          if (!RegExpValidator.isValidPhone(phone: value) && value.isNotEmpty) {
+                            ShowToastSnackBar.displayToast(message: 'At least 10 digit of ID');
+                            return '';
+                          }
+                          return null;
+                        },
+                      ),
+                                         ],
+                  ),
                 ),
               ],
             ),
