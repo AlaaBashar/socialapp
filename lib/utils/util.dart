@@ -277,6 +277,5 @@ void showSnackBar(BuildContext context, String value,{
   ));
 }
 String dataFormat({DateTime? date}){
-
-  return DateFormat('yyyy/MM/hh  hh:mm a').format(date!);
+  return DateFormat('hh:mm a,  MMM /d /yyyy').format(date!);
 }

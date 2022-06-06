@@ -122,8 +122,6 @@ class Api {
     });
   }
   static Future<void> removeComments(PostCommentsModel postComments,String? postUid) async {
-
-
     await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
       'comments': FieldValue.arrayRemove([postComments.toJson()])
     });

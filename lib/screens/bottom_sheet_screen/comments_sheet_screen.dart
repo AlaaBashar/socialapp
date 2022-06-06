@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../export_feature.dart';
-
 class CommentsBottomSheet extends StatefulWidget {
   final PostModel? postModel;
   const CommentsBottomSheet({Key? key, required this.postModel}) : super(key: key);
@@ -11,16 +9,17 @@ class CommentsBottomSheet extends StatefulWidget {
 
 class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
   var commentController = TextEditingController();
+  var scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-
-
 
   @override
   Widget build(BuildContext context) {
-    return  Form(
-      key: _formKey,
-      child: SizedBox(
-        height: getScreenHeight(context) * 0.8,
+    return SizedBox(
+      height: getScreenHeight(context) * 0.8,
+      child: Scaffold(
+        key: scaffoldKey,
+        body: Form(
+        key: _formKey,
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
@@ -42,7 +41,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                       width: 5.0,
                     ),
                     Text(
-                      '1200',
+                      '${widget.postModel!.likes!.length}',
                       style: Theme.of(context).textTheme.caption,
                     ),
                     const SizedBox(
@@ -86,49 +85,106 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index){
                                 PostCommentsModel postComments = widget.postModel!.comments![index];
-                                return Row(
+                                return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CircleAvatarWidget(
-                                      radius: 22.0,
-                                      showBackgroundImage: true,
-                                      backgroundImageUrl: '${postComments.user!.image}',
-                                    ),
-                                    Expanded(
-                                      child: Card(
-                                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15.0),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CircleAvatarWidget(
+                                          radius: 22.0,
+                                          showBackgroundImage: true,
+                                          backgroundImageUrl: '${postComments.user!.image}',
                                         ),
-                                        margin:  const EdgeInsets.all(8.0),
-                                        elevation: 6.0,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(12.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children:  [
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                      child: Text(
-                                                          '${postComments.user!.name}')),
-                                                  InkWell(
-                                                      onTap: ()=> removeComments(postCommentsModel: postComments),
-                                                      highlightColor: Colors.transparent,
-                                                      focusColor: Colors.transparent,
-                                                      child: const Icon(
-                                                          MyFlutterApp
-                                                              .more_horiz)),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 8.0,),
-                                              Text('${postComments.comments}',style: Theme.of(context).textTheme.caption,),
+                                        Expanded(
+                                                  child: InkWell(
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onLongPress: () {
+                                                      if(postComments.userUid == Auth.currentUser!.uid){
+                                                        scaffoldKey.currentState!.showBottomSheet((context) => CommentsOptionsSheet(
+                                                          postCommentsModel:
+                                                          postComments,
+                                                          postModel: widget
+                                                              .postModel,
+                                                          function: () {
+                                                            removeComments(
+                                                                postCommentsModel:
+                                                                postComments,
+                                                                postModel:
+                                                                widget
+                                                                    .postModel)
+                                                                .then((value) =>
+                                                                commentController
+                                                                    .clear());
+                                                            setState(() {});
+                                                          },
+                                                        ));
+                                                      }
+                                                      else{
+                                                        ShowToastSnackBar.displayToast(message: 'Copied');
+                                                      }
+                                                      setState(() {});
+                                                    },
+                                                    child: Card(
+                                                      clipBehavior: Clip
+                                                          .antiAliasWithSaveLayer,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                15.0),
+                                                      ),
+                                                      margin:
+                                                          const EdgeInsets.all(8.0),
+                                                      elevation: 6.0,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets.all(
+                                                                12.0),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Text('${postComments.user!.name}'),
+                                                                const SizedBox(
+                                                                  width: 2.0,
+                                                                ),
+                                                                widget.postModel!.userUid == postComments.userUid?
+                                                                Text('(Author)',style:Theme.of(context).textTheme.caption,):const Text(''),
+                                                              ],
+                                                            ),
 
-                                            ],
-                                          ),
-                                        ),
+                                                            const SizedBox(
+                                                              height: 8.0,
+                                                            ),
+                                                            Text(
+                                                              '${postComments.comments}',
+                                                              style:
+                                                                  Theme.of(context)
+                                                                      .textTheme
+                                                                      .caption,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                                      child: Row(
+                                        children: [
+                                          Text(dataFormat(date: postComments.date),style: Theme.of(context).textTheme.caption,),
+                                          const SizedBox(width: 10.0,),
+                                        ],
                                       ),
                                     ),
+                                    const SizedBox(height: 20.0,),
                                   ],
                                 );
                               },
@@ -172,6 +228,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
           ],
         ),
       ),
+      ),
     );
   }
 
@@ -197,19 +254,18 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
 
   }
 
-  void removeComments({PostCommentsModel? postCommentsModel}) async {
+  Future<void> removeComments({PostCommentsModel? postCommentsModel , PostModel? postModel,}) async {
     if(Auth.currentUser!.uid == postCommentsModel!.userUid){
-      widget.postModel!.comments!.remove(postCommentsModel);
+      postModel!.comments!.remove(postCommentsModel);
       await Api.removeComments(postCommentsModel, postCommentsModel.postUid);
-      setState(() {});
 
     }
-
-
-
-
   }
 
+
+
+
 }
+
 
 
