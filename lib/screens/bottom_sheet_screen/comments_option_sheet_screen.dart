@@ -6,7 +6,8 @@ class CommentsOptionsSheet extends StatefulWidget {
   final PostCommentsModel? postCommentsModel;
   final PostModel? postModel;
   final Function? function;
-  const CommentsOptionsSheet({Key? key, this.postCommentsModel, this.postModel, this.function}) : super(key: key);
+  final Function? editComments;
+  const CommentsOptionsSheet({Key? key, this.postCommentsModel, this.postModel, this.function, this.editComments}) : super(key: key);
 
   @override
   State<CommentsOptionsSheet> createState() => _CommentsOptionsSheetState();
@@ -83,9 +84,7 @@ class _CommentsOptionsSheetState extends State<CommentsOptionsSheet> {
   }
 
   void onCopy(){
-    Clipboard.setData(ClipboardData(
-        text: '${widget.postCommentsModel!.comments}'))
-        .then((value) {
+    Clipboard.setData(ClipboardData(text: '${widget.postCommentsModel!.commentsContent}')).then((value) {
       Navigator.pop(context);
       ShowToastSnackBar.displayToast(message: 'Copied');
     });
@@ -93,6 +92,7 @@ class _CommentsOptionsSheetState extends State<CommentsOptionsSheet> {
   }
 
   void onEdit(){
+    ///widget.editComments!();
     Navigator.pop(context);
     setState(() {});
   }
@@ -106,8 +106,8 @@ class _CommentsOptionsSheetState extends State<CommentsOptionsSheet> {
     if(shouldPop){
       Navigator.pop(context);
       widget.function!();
-      setState(() {
-      });
+      ShowToastSnackBar.displayToast(message: 'Comment deleted');
+      setState(() {});
     }
     else{
       Navigator.pop(context);

@@ -63,6 +63,7 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                       Stack(
                         alignment: AlignmentDirectional.topEnd,
                         children: [
+                          widget.userData.cover!.isNotEmpty?
                           Align(
                             alignment: Alignment.topCenter,
                             child: Container(
@@ -80,7 +81,25 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                                 ),
                               ),
                             ),
+                          ):Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              height: 180.0,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(4.0),
+                                  topLeft: Radius.circular(4.0),
+                                ),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:coverImage == null
+                                        ?const AssetImage(ImageHelper.cover):FileImage(coverImage!) as ImageProvider
+                                ),
+                              ),
+                            ),
                           ),
+
                           IconButton(
                             iconSize: 15.0,
                             onPressed: getCoverImage,
@@ -93,7 +112,8 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                       Stack(
                         alignment: AlignmentDirectional.bottomEnd,
                         children: [
-                          CircleAvatar(
+                      widget.userData.image!.isNotEmpty
+                          ?CircleAvatar(
                             radius: 60.0,
                             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                             child: CircleAvatar(
@@ -102,7 +122,18 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                                   ? NetworkImage('${widget.userData.image}')
                                   : FileImage(profileImage!) as ImageProvider,
                             ),
+                          )
+                          :CircleAvatar(
+                            radius: 60.0,
+                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            child: CircleAvatar(
+                              radius: 55.0,
+                              backgroundImage: profileImage == null
+                                  ? const AssetImage(ImageHelper.user)
+                                  : FileImage(profileImage!) as ImageProvider,
+                            ),
                           ),
+
                           IconButton(
                             iconSize: 15.0,
                             onPressed: getProfileImage,

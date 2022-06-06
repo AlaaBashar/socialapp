@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +18,19 @@ class RegisterProvider with ChangeNotifier, DiagnosticableTreeMixin {
     required String phone,
     required String id,
     required context,
+    File? profileImage,
+
   }) async{
+    String? imageUrl;
+
     ProgressCircleDialog.show(context);
+    if (profileImage != null) {
+      imageUrl = await Storage.uploadUserImage(image: profileImage)
+          .catchError((onError) {
+        showSnackBar(context, onError.toString());
+      });
+    }
+
     UserModel userData = UserModel(
       name: name,
       password: password,
@@ -26,7 +39,8 @@ class RegisterProvider with ChangeNotifier, DiagnosticableTreeMixin {
       date: DateTime.now(),
       id: id,
       uid: '',
-      image: 'https://img.freepik.com/free-photo/attractive-surprised-curly-haired-woman-keeps-lips-rounded-points-thumb-away-makes-her-choice-shopping-dressed-casual-hoodie-poses-yellow-wall-shows-logo-promo-deal-copy-space_273609-49702.jpg?t=st=1652078518~exp=1652079118~hmac=1cf3a4e4a7f62207ae5c73eff64987a03176b87a33bd0255b495d450480bca03&w=1380',
+      image: imageUrl ??'',
+      cover: '',
       bio: 'write your bio ...',
     );
 

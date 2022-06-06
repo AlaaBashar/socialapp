@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../export_feature.dart';
 class CommentsBottomSheet extends StatefulWidget {
   final PostModel? postModel;
@@ -103,26 +104,27 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                                                     onLongPress: () {
                                                       if(postComments.userUid == Auth.currentUser!.uid){
                                                         scaffoldKey.currentState!.showBottomSheet((context) => CommentsOptionsSheet(
-                                                          postCommentsModel:
-                                                          postComments,
-                                                          postModel: widget
-                                                              .postModel,
+                                                          postCommentsModel: postComments,
+                                                          postModel: widget.postModel,
                                                           function: () {
-                                                            removeComments(
-                                                                postCommentsModel:
-                                                                postComments,
-                                                                postModel:
-                                                                widget
-                                                                    .postModel)
+                                                            removeComments(postCommentsModel: postComments, postModel: widget.postModel)
                                                                 .then((value) =>
                                                                 commentController
                                                                     .clear());
                                                             setState(() {});
                                                           },
+                                                          editComments: (){
+                                                            onEditComments(postCommentsModel: postComments, postModel: widget.postModel);
+                                                            setState(() {});
+
+                                                          },
+
                                                         ));
                                                       }
                                                       else{
-                                                        ShowToastSnackBar.displayToast(message: 'Copied');
+                                                        Clipboard.setData(ClipboardData(text: '${postComments.commentsContent}')).then((value) {
+                                                          ShowToastSnackBar.displayToast(message: 'Copied');
+                                                        });
                                                       }
                                                       setState(() {});
                                                     },
@@ -161,7 +163,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                                                               height: 8.0,
                                                             ),
                                                             Text(
-                                                              '${postComments.comments}',
+                                                              '${postComments.commentsContent}',
                                                               style:
                                                                   Theme.of(context)
                                                                       .textTheme
@@ -203,7 +205,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                       child: TextFieldApp(
                         showCursor: true,
                         controller: commentController,
-                        hintText: 'write your comment ...',
+                        hintText: 'write your comment here ...',
                         suffixIcon: IconButton(
                           onPressed: () =>  onComment().then((value) => commentController.clear()),
                           icon: const Icon(Icons.send),
@@ -244,20 +246,28 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
       ..date = DateTime.now()
       ..user=Auth.currentUser
       ..postUid = widget.postModel!.postUid
-      ..comments = postComments
+      ..commentsContent = postComments
       ..userUid = Auth.currentUser!.uid;
     widget.postModel!.comments!.add(postCommentsModel);
     await Api.setComments(postCommentsModel, widget.postModel!.postUid);
     setState(() {});
-
-
-
   }
 
   Future<void> removeComments({PostCommentsModel? postCommentsModel , PostModel? postModel,}) async {
     if(Auth.currentUser!.uid == postCommentsModel!.userUid){
       postModel!.comments!.remove(postCommentsModel);
       await Api.removeComments(postCommentsModel, postCommentsModel.postUid);
+
+    }
+  }
+
+  Future<void> onEditComments({PostCommentsModel? postCommentsModel , PostModel? postModel,}) async {
+    if(Auth.currentUser!.uid == postCommentsModel!.userUid){
+      postCommentsModel.commentsContent = 'sasdsdsa';
+      postModel!.comments![postModel.comments!.indexWhere((element) => element.commentUid == postCommentsModel.commentUid)] = postCommentsModel;
+      await Api.updateComments(postModel.postUid,postModel.comments!);
+      setState(() {
+      });
 
     }
   }

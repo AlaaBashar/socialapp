@@ -108,7 +108,8 @@ class _FeedsScreenState extends State<FeedsScreen> {
   buildPostHeader({String? image, String? name, DateTime? dateTime}) {
     return Row(
       children: [
-        Container(
+        image!.isNotEmpty
+            ?Container(
           width: 50.0,
           height: 50.0,
           decoration: BoxDecoration(
@@ -117,11 +118,23 @@ class _FeedsScreenState extends State<FeedsScreen> {
               image: CachedNetworkImageProvider('$image'),
             ),
           ),
+        )
+            :Container(
+          width: 50.0,
+          height: 50.0,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: AssetImage(ImageHelper.user),
+            ),
+          ),
         ),
+
         const SizedBox(
           width: 20.0,
         ),
         Expanded(
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -296,6 +309,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Row(
             children: [
+
               Expanded(
                 child: InkWell(
                   highlightColor: Colors.transparent,
@@ -362,10 +376,14 @@ class _FeedsScreenState extends State<FeedsScreen> {
               child: InkWell(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
-                onTap: () {},
+                onTap: () {
+                  scaffoldKey.currentState!.showBottomSheet((context) => CommentsBottomSheet(postModel: postModel,));
+                  setState(() {});
+                },
                 child: Row(
                   children: [
-                    Container(
+                    image!.isNotEmpty
+                    ?Container(
                       width: 35.0,
                       height: 35.0,
                       decoration: BoxDecoration(
@@ -374,7 +392,18 @@ class _FeedsScreenState extends State<FeedsScreen> {
                           image: CachedNetworkImageProvider('$image'),
                         ),
                       ),
+                    )
+                    :Container(
+                      width: 35.0,
+                      height: 35.0,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage(ImageHelper.user),
+                        ),
+                      ),
                     ),
+
                     const SizedBox(
                       width: 20.0,
                     ),

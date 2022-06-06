@@ -42,6 +42,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
+
           SliverFillRemaining(
             hasScrollBody: false,
             child: Form(
@@ -53,7 +54,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     children: [
                       Row(
                         children: [
-                          Container(
+                          userData!.image!.isNotEmpty
+                              ?Container(
                             width: 50.0,
                             height: 50.0,
                             decoration: BoxDecoration(
@@ -63,7 +65,19 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                     '${userData!.image}'),
                               ),
                             ),
+                          )
+                              :Container(
+                            width: 50.0,
+                            height: 50.0,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: AssetImage(ImageHelper.user),
+                              ),
+                            ),
                           ),
+
+
                           const SizedBox(
                             width: 20.0,
                           ),
@@ -203,7 +217,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     FocusManager.instance.primaryFocus?.unfocus();
     String? postContent = postController.text;
     String? postUrl;
-    ProgressLinearDialog.show(context,title: 'Posting');
+    ///ProgressLinearDialog.show(context,title: 'Posting');
     if (postImage != null) {
       postUrl = await Storage.uploadUserImage(image: postImage)
           .catchError((onError) {
@@ -225,11 +239,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
     }).catchError((onError) {
       debugPrint(onError.toString());
       showSnackBar(context, onError.toString());
-      ProgressLinearDialog.dismiss(context);
+     /// ProgressLinearDialog.dismiss(context);
     });
 
     Navigator.pop(context,true);
-    ProgressLinearDialog.dismiss(context);
+    ///ProgressLinearDialog.dismiss(context);
 
 
 

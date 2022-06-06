@@ -126,6 +126,12 @@ class Api {
       'comments': FieldValue.arrayRemove([postComments.toJson()])
     });
   }
+  static Future<void> updateComments(String? postUid,var commentList) async {
+    DocumentReference doc = db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid);
+    await doc.update({
+      'comments' : commentList,
+    });
+  }
 
 
 }

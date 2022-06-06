@@ -20,7 +20,9 @@ class _FullImageScreenState extends State<FullImageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key:scaffoldKey ,
+      resizeToAvoidBottomInset: false,
+
+      key:scaffoldKey,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SizedBox(
         width: double.infinity,
@@ -153,9 +155,7 @@ class _FullImageScreenState extends State<FullImageScreen> {
                 InkWell(
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
-                  onTap: () {
-
-                  },
+                  onTap: () {},
                   child: Text(
                     '0 share',
                     style: Theme.of(context).textTheme.caption,

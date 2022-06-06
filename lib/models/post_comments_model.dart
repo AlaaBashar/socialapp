@@ -2,7 +2,7 @@
 import '../export_feature.dart';
 
 class PostCommentsModel {
-  String? userUid,postUid,comments,commentUid;
+  String? userUid,postUid,commentsContent,commentUid;
   DateTime? date;
   UserModel? user;
 
@@ -11,7 +11,7 @@ class PostCommentsModel {
     this.user,
     this.userUid,
     this.postUid,
-    this.comments,
+    this.commentsContent,
     this.commentUid,
   });
 
@@ -20,7 +20,7 @@ class PostCommentsModel {
 
     userUid= json["userUid"] ?? '';
     postUid= json["postUid"] ?? '';
-    comments= json["comments"] ?? '';
+    commentsContent= json["commentsContent"] ?? '';
     commentUid= json["commentUid"] ?? '';
     date= DateTime.parse(json["date"]);
     user= UserModel.fromJson(json["user"]);
@@ -32,7 +32,7 @@ class PostCommentsModel {
     return {
       "userUid": userUid ?? '',
       "postUid": postUid ?? '',
-      "comments": comments ?? '',
+      "commentsContent": commentsContent ?? '',
       "commentUid": commentUid ?? '',
       "date": date!.toIso8601String(),
       "user": user!.toJson() ,

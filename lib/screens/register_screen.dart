@@ -1,5 +1,5 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../export_feature.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -14,6 +14,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var nameController = TextEditingController();
   var phoneController = TextEditingController();
   var idController = TextEditingController();
+  File? profileImage;
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
 
@@ -52,9 +54,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             'Create an Account,it\'s free',
                             style: TextStyle(fontSize: 20.0, color: Colors.grey),
                           ),
-                          const SizedBox(
-                            height: 25.0,
+                          const SizedBox(height: 25.0,),
+                          Stack(
+                            alignment: AlignmentDirectional.bottomEnd,
+                            children: [
+                              CircleAvatar(
+                                radius: 60.0,
+                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                child: CircleAvatar(
+                                  radius: 55.0,
+                                  backgroundImage: profileImage == null
+                                      ? const AssetImage(ImageHelper.user)
+                                      : FileImage(profileImage!) as ImageProvider,
+                                ),
+                              ),
+
+                              IconButton(
+                                iconSize: 15.0,
+                                onPressed: getProfileImage,
+                                icon: CircleAvatar(
+                                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                    child: const Icon(Icons.camera_enhance,)),
+                              ),
+                            ],
                           ),
+                          const SizedBox(height: 25.0,),
                           TextFieldApp(
                             height: 60.0,
                             controller: nameController,
@@ -239,8 +263,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       id: id,
       name: name,
       phone: phone,
+      profileImage: profileImage
     );
-
   }
-
+  void getProfileImage() async {
+    profileImage = await Storage.getGalleryImage(image: profileImage).catchError((onError) {
+      showSnackBar(context, onError.toString());
+    });
+    setState(() {});
+  }
 }

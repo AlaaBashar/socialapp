@@ -25,7 +25,8 @@ class _SettingScreenState extends State<SettingScreen> {
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  Align(
+                  userData!.cover!.isNotEmpty
+                      ? Align(
                     alignment: Alignment.topCenter,
                     child: Container(
                       height: 180.0,
@@ -37,20 +38,76 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image:
-                              CachedNetworkImageProvider('${userData!.cover}'),
+                          image: CachedNetworkImageProvider('${userData!.cover}'),
                         ),
                       ),
                     ),
-                  ),
-                  CircleAvatar(
-                    radius: 60.0,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    child: CircleAvatar(
-                      radius: 55.0,
-                      backgroundImage: NetworkImage('${userData!.image}'),
-                    ),
-                  ),
+                  )
+                      : Stack(
+                          alignment: AlignmentDirectional.topEnd,
+                          children: [
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                height: 180.0,
+                                width: double.infinity,
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(4.0),
+                                    topLeft: Radius.circular(4.0),
+                                  ),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(ImageHelper.cover),
+                                  ),
+                                ),
+
+                              ),
+                            ),
+                            IconButton(
+                              iconSize: 15.0,
+                              onPressed: () =>
+                                  onEditSettings(userData: userData),
+                              icon: CircleAvatar(
+                                  backgroundColor: Theme.of(context)
+                                      .scaffoldBackgroundColor,
+                                  child: const Icon(
+                                    Icons.camera_enhance,
+                                  )),
+                            ),
+                          ],
+                        ),
+                  userData!.image!.isNotEmpty
+                      ? CircleAvatar(
+                          radius: 60.0,
+                          backgroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
+                          child: CircleAvatar(
+                            radius: 55.0,
+                            backgroundImage: NetworkImage('${userData!.image}'),
+                          ),
+                        )
+                      : Stack(
+                    alignment: AlignmentDirectional.bottomEnd,
+                        children: [
+                          CircleAvatar(
+                              radius: 60.0,
+                              backgroundColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              child: const CircleAvatar(
+                                radius: 55.0,
+                                backgroundImage: AssetImage(ImageHelper.user),
+                              ),
+                            ),
+                          IconButton(
+                            iconSize: 15.0,
+                            onPressed: ()=>onEditSettings(userData: userData),
+                            icon: CircleAvatar(
+                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                child: const Icon(Icons.camera_enhance,)),
+                          ),
+                        ],
+                      ),
                 ],
               ),
             ),
