@@ -1,14 +1,9 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:socialapp/export_feature.dart';
 
 class Api {
   static FirebaseFirestore db = FirebaseFirestore.instance;
-
-
   static Future<UserModel?> insertNewUser({
     required UserModel userApp,
   }) async {
@@ -21,7 +16,7 @@ class Api {
 
       return userApp;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -41,11 +36,46 @@ class Api {
     return null;
   }
 
-  static Future<dynamic> editUserProfile({UserModel? model,String? docId}) async {
+  static Future<dynamic> editUserProfile({UserModel? model,String? docId,BuildContext? context}) async {
+    List<PostModel>? post = LoginProvider.read(context).postList;
+    List<PostCommentsModel>? commentsList = <PostCommentsModel>[];
+     post!.forEach((element) {
+       commentsList.addAll(element.comments!.toList()) ;
+    });
+
     try{
     model!.uid = docId;
     CollectionReference doc = db.collection(CollectionsFireStoreKeys.USERS);
     await doc.doc(model.uid).update(model.toJson());
+
+
+    CollectionReference docs = db.collection(CollectionsFireStoreKeys.POSTS);
+    await docs.where('userUid',isEqualTo: Auth.currentUser!.uid).get().then((value) => {
+      value.docs.forEach((element) {
+        element.reference.update({
+          'user': model.toJson(),
+        });
+      })
+    });
+
+    CollectionReference comments = db.collection(CollectionsFireStoreKeys.POSTS);
+    commentsList.forEach((element) async{
+      await comments.doc(element.postUid).update({'comments': FieldValue.delete()});
+      PostCommentsModel? postCommentsModel;
+      if(element.userUid == Auth.currentUser!.uid) {
+        debugPrint('${element.postUid}');
+        element.user = model;
+        postCommentsModel = element;
+        await comments.doc(element.postUid).update({'comments': FieldValue.arrayUnion([postCommentsModel.toJson()])});
+      }
+      else{
+        postCommentsModel = element;
+        await comments.doc(element.postUid).update({'comments': FieldValue.arrayUnion([postCommentsModel.toJson()])});
+
+      }
+    });
+
+
     }catch(onError){
      return Future.error(onError.toString());
     }
@@ -100,14 +130,12 @@ class Api {
   //     return Future.error(e.toString());
   //   }
   // }
-
-
   static Future<void> setPostLike(PostLikes postLikes,String? postUid) async {
-
      await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
        'likes': FieldValue.arrayUnion([postLikes.toJson()])
      });
   }
+
   static Future<void> removePostLike(PostLikes postLikes,String? postUid) async {
     await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
       'likes': FieldValue.arrayRemove([postLikes.toJson()])
@@ -116,22 +144,32 @@ class Api {
 
   static Future<void> setComments(PostCommentsModel postComments,String? postUid) async {
     DocumentReference doc = db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid);
-    postComments.commentUid =doc.id;
+    DocumentReference generateId = db.collection(CollectionsFireStoreKeys.POSTS).doc();
+    postComments.commentUid =generateId.id;
     await doc.update({
       'comments': FieldValue.arrayUnion([postComments.toJson()])
     });
   }
+
   static Future<void> removeComments(PostCommentsModel postComments,String? postUid) async {
     await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
       'comments': FieldValue.arrayRemove([postComments.toJson()])
     });
   }
-  static Future<void> updateComments(String? postUid,var commentList) async {
-    DocumentReference doc = db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid);
-    await doc.update({
-      'comments' : commentList,
+
+  static Future<void> updateComments(String? postUid,List<PostCommentsModel>? commentList) async {
+    await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
+      'comments': FieldValue.delete()});
+
+    commentList!.forEach((element) async{
+      PostCommentsModel? postCommentsModel = element;
+      await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
+        'comments': FieldValue.arrayUnion([postCommentsModel.toJson()])
+      });
     });
+
   }
+
 
 
 }

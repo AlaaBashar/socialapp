@@ -19,9 +19,10 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
   var phoneController = TextEditingController();
   var bioController = TextEditingController();
   var idController = TextEditingController();
+  var birthdayController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   File? profileImage;
   File? coverImage;
-  final _formKey = GlobalKey<FormState>();
 
 
   @override
@@ -33,6 +34,7 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
     phoneController.text = widget.userData.phone.toString();
     bioController.text = widget.userData.bio.toString();
     idController.text = widget.userData.id.toString();
+    birthdayController.text = widget.userData.birthDay.toString();
   });
   }
   @override
@@ -133,7 +135,6 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                                   : FileImage(profileImage!) as ImageProvider,
                             ),
                           ),
-
                           IconButton(
                             iconSize: 15.0,
                             onPressed: getProfileImage,
@@ -238,6 +239,34 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                       ),
                       TextFieldApp(
                         height: 60.0,
+                        readOnly: true,
+                        onTap: ()async{
+                          String? date = await DateTimePicker.datePicker(context: context);
+                          birthdayController.text = date!;
+                        },
+                        controller: birthdayController,
+                        hintText: 'Birthday Date',
+                        isRTL: false,
+                        showCursor: true,
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () => birthdayController.clear(),
+                        ),
+                        icon: const Icon(Icons.date_range),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            ShowToastSnackBar.displayToast(message: 'Birthday date Must Be Not Empty');
+                            return '';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      TextFieldApp(
+                        height: 60.0,
                         type: TextInputType.number,
                         controller: idController,
                         hintText: 'Phone',
@@ -284,6 +313,7 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
     FocusScope.of(context).requestFocus(FocusNode());
     FocusManager.instance.primaryFocus?.unfocus();
     String? name = nameController.text;
+    String? birthDay = birthdayController.text;
     String? phone = phoneController.text.trim();
     String? bio = bioController.text;
     String? id = idController.text.trim();
@@ -295,6 +325,7 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
         phone: phone,
         bio: bio,
         id: id,
+        birthDay: birthDay,
         coverImage: coverImage,
         profileImage: profileImage);
     }

@@ -250,7 +250,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
 
   }
   Future<void> loadPosts() async {
-      await Api.getPosts();
+    await LoginProvider.read(context).loadData();
     setState(() {});
   }
   void addPhoto() async {

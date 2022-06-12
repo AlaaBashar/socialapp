@@ -17,6 +17,7 @@ class RegisterProvider with ChangeNotifier, DiagnosticableTreeMixin {
     required String name,
     required String phone,
     required String id,
+    required String birthDay,
     required context,
     File? profileImage,
 
@@ -41,6 +42,7 @@ class RegisterProvider with ChangeNotifier, DiagnosticableTreeMixin {
       uid: '',
       image: imageUrl ??'',
       cover: '',
+      birthDay: birthDay,
       bio: 'write your bio ...',
     );
 

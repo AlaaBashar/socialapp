@@ -5,9 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
-import '../export_feature.dart';
-
-
 Future<dynamic> openNewPage(BuildContext context, Widget widget,
     {bool popPreviousPages = false}) {
   return Future<dynamic>.delayed(Duration.zero, () {
@@ -101,6 +98,7 @@ class ProgressCircleDialog {
     }
   }
 }
+
 class ProgressLinearDialog {
   static bool _isShow = false;
   static show(

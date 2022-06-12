@@ -14,6 +14,14 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: getScreenHeight(context) * 0.8,
@@ -107,16 +115,8 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                                                           postCommentsModel: postComments,
                                                           postModel: widget.postModel,
                                                           function: () {
-                                                            removeComments(postCommentsModel: postComments, postModel: widget.postModel)
-                                                                .then((value) =>
-                                                                commentController
-                                                                    .clear());
+                                                            removeComments(postCommentsModel: postComments, postModel: widget.postModel);
                                                             setState(() {});
-                                                          },
-                                                          editComments: (){
-                                                            onEditComments(postCommentsModel: postComments, postModel: widget.postModel);
-                                                            setState(() {});
-
                                                           },
 
                                                         ));
@@ -257,18 +257,6 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
     if(Auth.currentUser!.uid == postCommentsModel!.userUid){
       postModel!.comments!.remove(postCommentsModel);
       await Api.removeComments(postCommentsModel, postCommentsModel.postUid);
-
-    }
-  }
-
-  Future<void> onEditComments({PostCommentsModel? postCommentsModel , PostModel? postModel,}) async {
-    if(Auth.currentUser!.uid == postCommentsModel!.userUid){
-      postCommentsModel.commentsContent = 'sasdsdsa';
-      postModel!.comments![postModel.comments!.indexWhere((element) => element.commentUid == postCommentsModel.commentUid)] = postCommentsModel;
-      await Api.updateComments(postModel.postUid,postModel.comments!);
-      setState(() {
-      });
-
     }
   }
 
@@ -276,6 +264,3 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
 
 
 }
-
-
-

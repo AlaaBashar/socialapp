@@ -13,9 +13,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var passwordController = TextEditingController();
   var nameController = TextEditingController();
   var phoneController = TextEditingController();
+  var birthdayController = TextEditingController();
   var idController = TextEditingController();
   File? profileImage;
-
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   minHeight: constraints.maxHeight,
                 ),
                 child: IntrinsicHeight(
-
                   child: Form(
                     key: _formKey,
                     child: Padding(
@@ -40,7 +39,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-
                           const Spacer(flex: 1,),
                           const Text(
                             'SIGN UP',
@@ -193,6 +191,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           TextFieldApp(
                             height: 60.0,
+                            readOnly: true,
+                            onTap: ()async{
+                              String? date = await DateTimePicker.datePicker(context: context);
+                              birthdayController.text = date!;
+                            },
+                            controller: birthdayController,
+                            hintText: 'Birthday Date',
+                            isRTL: false,
+                            showCursor: true,
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () => birthdayController.clear(),
+                            ),
+                            icon: const Icon(Icons.date_range),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                ShowToastSnackBar.displayToast(message: 'Birthday date Must Be Not Empty');
+                                return '';
+                              }
+
+                              return null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 25.0,
+                          ),
+                          TextFieldApp(
+                            height: 60.0,
                             type:TextInputType.number,
                             controller: idController,
                             hintText: 'ID',
@@ -247,10 +273,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void onRegister() async{
     if (!_formKey.currentState!.validate()) {return;}
 
+    if(profileImage == null){
+      ShowToastSnackBar.displayToast(message: 'Profile Image must be not empty');
+      return;}
     FocusScope.of(context).requestFocus(FocusNode());
     FocusManager.instance.primaryFocus?.unfocus();
-
     String? name = nameController.text;
+    String? birthDay = birthdayController.text;
     String? password = passwordController.text.trim();
     String? email = emailController.text.trim();
     String? phone = phoneController.text.trim();
@@ -263,6 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       id: id,
       name: name,
       phone: phone,
+      birthDay: birthDay,
       profileImage: profileImage
     );
   }

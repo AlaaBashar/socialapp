@@ -43,4 +43,15 @@ class LoginProvider with ChangeNotifier, DiagnosticableTreeMixin {
     modeIcon = isVisible! ? Icons.visibility_off  :Icons.visibility ;
     notifyListeners();
   }
+  List<PostModel>? get postList => _postList;
+  List<PostModel>? _postList= [];
+
+
+  Future<void> loadData() async{
+    _postList = await Api.getPosts();
+    notifyListeners();
+  }
+
+
+
 }

@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../export_feature.dart';
@@ -124,61 +125,49 @@ class _NavDrawerState extends State<NavDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
+
         children: [
           DrawerHeader(
-            decoration: const BoxDecoration(
+            decoration:Auth.currentUser!.cover!.isNotEmpty
+            ?BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: CachedNetworkImageProvider('${Auth.currentUser!.cover}'),
+              ),
+            )
+            :const BoxDecoration(
               color: Colors.blue,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Spacer(
-                      flex: 1,
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 45.0,
+                    backgroundColor:
+                    Theme.of(context).scaffoldBackgroundColor,
+                    child: CircleAvatar(
+                      radius: 40.0,
+                      backgroundImage: NetworkImage('${Auth.currentUser!.image}'),
                     ),
-                    const Icon(
-                      Icons.account_circle,
-                      color: Colors.white,
-                      size: 40,
-                    ),
-                    const Spacer(
-                      flex: 2,
-                    ),
-                    Text(
-                      "${Auth.currentUser!.name}",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const Spacer(
-                      flex: 4,
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        ChangeMode.read(context).changeAppMode();
-                      },
-                      icon: Icon(context.watch<ChangeMode>().modeIcon),
-                    ),
-                  ],
-                ),
-                Text(
-                  "${Auth.currentUser!.email}",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
                   ),
-                ),
-              ],
+                  Text(
+                    "${Auth.currentUser!.name}",
+                    style:  TextStyle(color: Colors.grey.shade300,fontSize: 16.0,
+                      fontWeight: FontWeight.bold,),
+                  ),
+                  Text(
+                    "${Auth.currentUser!.email}",
+                    style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.grey.shade300),
+                  ),
+
+                ],
+              ),
             ),
           ),
-          const Divider(
-            color: Colors.grey,
-          ),
+
           ListTile(
             title: const Text("Log Out"),
             leading: IconButton(

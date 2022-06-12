@@ -18,14 +18,20 @@ class _FeedsScreenState extends State<FeedsScreen> {
 
   @override
   void initState() {
+
+
+
     // TODO: implement initState
     super.initState();
     loadPosts();
+
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      resizeToAvoidBottomInset: false,
+
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -93,7 +99,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildPostHeader(image:postModel!.user!.image,name:postModel.user!.name ,dateTime:postModel.date),
+            buildPostHeader(image:postModel!.user!.image,name:postModel.user!.name ,dateTime:postModel.date,postModel: postModel),
             buildDivider(),
             buildPostContent(postContent: postModel.postContent),
             buildPostTags(),
@@ -105,7 +111,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
     );
   }
 
-  buildPostHeader({String? image, String? name, DateTime? dateTime}) {
+  buildPostHeader({String? image, String? name, DateTime? dateTime,PostModel? postModel}) {
     return Row(
       children: [
         image!.isNotEmpty
@@ -129,7 +135,6 @@ class _FeedsScreenState extends State<FeedsScreen> {
             ),
           ),
         ),
-
         const SizedBox(
           width: 20.0,
         ),
@@ -510,7 +515,9 @@ class _FeedsScreenState extends State<FeedsScreen> {
   }
 
   Future<void> loadPosts() async {
-    postList = await Api.getPosts();
+    await LoginProvider.read(context).loadData();
+    postList = LoginProvider.read(context).postList;
+    //postList = await Api.getPosts();
     setState(() {});
   }
 

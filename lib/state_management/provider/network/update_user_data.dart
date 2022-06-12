@@ -17,6 +17,7 @@ class EditUserDate with ChangeNotifier, DiagnosticableTreeMixin {
     String? phone,
     String? bio,
     String? id,
+    String? birthDay,
     File? profileImage,
     File? coverImage,
   }) async {
@@ -24,6 +25,7 @@ class EditUserDate with ChangeNotifier, DiagnosticableTreeMixin {
     String? coverUrl;
 
     ProgressLinearDialog.show(context, title: 'Editing in progress');
+
     if (profileImage != null) {
       imageUrl = await Storage.uploadUserImage(image: profileImage)
           .catchError((onError) {
@@ -36,6 +38,7 @@ class EditUserDate with ChangeNotifier, DiagnosticableTreeMixin {
         showSnackBar(context, onError.toString());
       });
     }
+
     UserModel userModel = UserModel();
     userModel
       ..name = name
@@ -43,15 +46,19 @@ class EditUserDate with ChangeNotifier, DiagnosticableTreeMixin {
       ..email = Auth.currentUser!.email
       ..bio = bio
       ..id = id
+      ..birthDay = birthDay
       ..date = DateTime.now()
       ..image = imageUrl ?? Auth.currentUser!.image
       ..cover = coverUrl ?? Auth.currentUser!.cover;
-    await Api.editUserProfile(model: userModel, docId: Auth.currentUser!.uid)
+
+    await Api.editUserProfile(model: userModel, docId: Auth.currentUser!.uid,context: context)
         .catchError((onError) {
       showSnackBar(context, onError.toString());
       ProgressLinearDialog.dismiss(context);
     });
+
     ProgressLinearDialog.dismiss(context);
+
     Navigator.pop(context, true);
 
     notifyListeners();

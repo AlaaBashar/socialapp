@@ -21,10 +21,10 @@ class _FullImageScreenState extends State<FullImageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-
       key:scaffoldKey,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SizedBox(
+
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

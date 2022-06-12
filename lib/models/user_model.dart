@@ -1,5 +1,5 @@
 class UserModel{
-  String? id, uid, name, password, email, phone, image,cover, bio;
+  String? id, uid, name, password, email, phone, image,cover, bio,birthDay;
   bool? isBlocked ;
   DateTime? date;
 
@@ -10,6 +10,7 @@ class UserModel{
     this.cover,
     this.bio,
     this.name,
+    this.birthDay,
     this.email,
     this.password,
     this.phone,
@@ -25,6 +26,7 @@ class UserModel{
       cover: json["cover"],
       bio: json["bio"],
       name: json["name"],
+      birthDay: json["birthDay"] ?? '',
       phone: json["phone"],
       email: json["email"],
       date: DateTime.parse(json["date"]),
@@ -41,6 +43,7 @@ class UserModel{
       "uid":uid,
       "cover":cover,
       "name":name,
+      "birthDay":birthDay,
       "image":image,
       "bio": bio,
       "phone": phone,

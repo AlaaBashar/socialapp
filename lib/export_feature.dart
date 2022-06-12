@@ -13,7 +13,8 @@ export 'screens/bottom_nav_screens/settings/setting_screen.dart';
 export 'screens/bottom_nav_screens/settings/edit_settings_screen.dart';
 ///BOTTOM_SHEET_SCREEN
 export 'screens/bottom_sheet_screen/comments_sheet_screen.dart';
-export 'screens/bottom_sheet_screen/comments_option_sheet_screen.dart';
+export 'screens/bottom_sheet_screen/comments_option_sheet/comments_option_sheet_screen.dart';
+export 'screens/bottom_sheet_screen/comments_option_sheet/edit_comment_screen.dart';
 
 
 
