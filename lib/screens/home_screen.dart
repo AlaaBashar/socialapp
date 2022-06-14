@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +10,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin  {
-
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
+  DateTime? currentBackPressTime;
   late final AnimationController controller;
   @override
   void initState() {
@@ -30,14 +29,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     var homeRead = HomeProvider.read(context);
     var homeWatch = HomeProvider.watch(context);
     bool expanded = true;
-
     return Scaffold(
       drawer:const NavDrawer(),
       onDrawerChanged: (onDrawerChanged){
         debugPrint('onDrawerChanged? $onDrawerChanged');
         onDrawerChanged ? controller.forward(): controller.reverse();
         setState(() {});
-
       },
       appBar: DefaultAppbar(
         titlesList: homeWatch.titles,
@@ -45,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         leading: Builder(builder: (context){
           return IconButton(
               icon: AnimatedIcon(
-
                 icon: AnimatedIcons.menu_home,
                 progress: controller,
                 semanticLabel: 'Show menu',
@@ -75,12 +71,21 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             icon: Icon(context.watch<ChangeMode>().modeIcon),
           ),
         ],),
-      body:homeWatch.bottomNav[homeWatch.currentIndex],
+      body: WillPopScope(
+
+        onWillPop: (){
+          setState(() {
+            homeWatch.currentIndex = 0;
+          });
+          return onWillPop();
+        },
+        child: homeWatch.bottomNav[homeWatch.currentIndex],
+      ),
       bottomNavigationBar: BottomNavigationBar(
+
         onTap: (index) => homeRead.onChangeIndexOfNav(index: index,context: context),
         currentIndex: homeWatch.currentIndex,
         items: const [
-
           BottomNavigationBarItem(
             icon: Icon(MyFlutterApp.home_2),
             label: 'Home',
@@ -105,6 +110,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       ),
     );
   }
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if ( currentBackPressTime == null || now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      ShowToastSnackBar.displayToast(message: 'Double tap the back button\nto close the app');
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
 }
 
 class NavDrawer extends StatefulWidget {

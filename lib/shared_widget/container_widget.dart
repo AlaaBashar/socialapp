@@ -5,7 +5,7 @@ class ContainerWidget extends StatelessWidget {
   final double? width;
   final Widget? child;
   final Color? color;
-  final double? borderRadius;
+  final BorderRadiusGeometry? borderRadius;
   final Color? boxShadowColor;
   final double? spreadShadowRadius;
   final double? blurShadowRadius;
@@ -36,7 +36,7 @@ class ContainerWidget extends StatelessWidget {
     this.color,
     this.padding,
     this.margin,
-    this.borderRadius = 0.0,
+    this.borderRadius,
     this.boxShadowColor,
     this.spreadShadowRadius=0.0,
     this.blurShadowRadius = 0.0,
@@ -74,7 +74,7 @@ class ContainerWidget extends StatelessWidget {
         )
             : null,
         color:color,
-        borderRadius: BorderRadius.circular(borderRadius!),
+        borderRadius: borderRadius!,
         gradient: showGradient! ? LinearGradient(
           begin: beginGradientAlign ?? Alignment.topRight,
           end: endGradientAlign ?? Alignment.bottomLeft,

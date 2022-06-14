@@ -7,8 +7,9 @@ export 'screens/full_image_screen.dart';
 ///BOTTOM_NAV_SCREEN
 export 'screens/bottom_nav_screens/new_post_screen.dart';
 export 'screens/bottom_nav_screens/feeds_screen.dart';
-export 'screens/bottom_nav_screens/chat_screen.dart';
 export 'screens/bottom_nav_screens/users_screen.dart';
+export 'screens/bottom_nav_screens/chat/chat_screen.dart';
+export 'screens/bottom_nav_screens/chat/chat_details_screen.dart';
 export 'screens/bottom_nav_screens/settings/setting_screen.dart';
 export 'screens/bottom_nav_screens/settings/edit_settings_screen.dart';
 ///BOTTOM_SHEET_SCREEN

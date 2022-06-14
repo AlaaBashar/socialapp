@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../../../export_feature.dart';
 
 class LoginProvider with ChangeNotifier, DiagnosticableTreeMixin {
-  static LoginProvider watch(context) => Provider.of(context,); ///watch-function ///get variables
-  static LoginProvider read(context)  => Provider.of(context,listen: false); ///read-function ///Implement functions
+  static LoginProvider watch(context) => Provider.of<LoginProvider>(context,); ///watch-function ///get variables
+  static LoginProvider read(context)  => Provider.of<LoginProvider>(context,listen: false); ///read-function ///Implement functions
 
   void onLoginPro(
       {required String email,

@@ -24,6 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return SingleChildScrollView(
+
               physics: const AlwaysScrollableScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(

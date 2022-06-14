@@ -18,9 +18,6 @@ class _FeedsScreenState extends State<FeedsScreen> {
 
   @override
   void initState() {
-
-
-
     // TODO: implement initState
     super.initState();
     loadPosts();
@@ -31,59 +28,61 @@ class _FeedsScreenState extends State<FeedsScreen> {
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomInset: false,
-
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            Card(
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              margin: const EdgeInsets.all(8.0),
-              elevation: 6.0,
-              child: Stack(
-                alignment: AlignmentDirectional.bottomEnd,
-                children: [
-                  const ReusableCachedNetworkImage(
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    height: 200,
-                    imageUrl:
-                        'https://img.freepik.com/free-photo/portrait-beautiful-young-woman-gesticulating_273609-41056.jpg?w=1380&t=st=1652021694~exp=1652022294~hmac=57105b5913f6f258038929b9e66b123856838325f075f311b42d0a8d42af8cc6',
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'communicat with friends',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(color: Colors.white),
+      body: RefreshIndicator(
+        onRefresh: onRefresh,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              Card(
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                margin: const EdgeInsets.all(8.0),
+                elevation: 6.0,
+                child: Stack(
+                  alignment: AlignmentDirectional.bottomEnd,
+                  children: [
+                    const ReusableCachedNetworkImage(
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      height: 200,
+                      imageUrl:
+                          'https://img.freepik.com/free-photo/portrait-beautiful-young-woman-gesticulating_273609-41056.jpg?w=1380&t=st=1652021694~exp=1652022294~hmac=57105b5913f6f258038929b9e66b123856838325f075f311b42d0a8d42af8cc6',
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'communicat with friends',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            postList != null
-                ? ListView.separated(
-                    physics: const ScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: postList!.length,
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 10.0,
-                    ),
-                    itemBuilder: (context, index) {
-                      PostModel postModel = postList![index];
-                      return buildPostItem(
-                        context,
-                        postModel,
-                      );
-                    },
-                  )
-                : getCenterCircularProgress(),
-            const SizedBox(
-              height: 10.0,
-            ),
-          ],
+              postList != null
+                  ? ListView.separated(
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: postList!.length,
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 10.0,
+                      ),
+                      itemBuilder: (context, index) {
+                        PostModel postModel = postList![index];
+                        return buildPostItem(
+                          context,
+                          postModel,
+                        );
+                      },
+                    )
+                  : getCenterCircularProgress(),
+              const SizedBox(
+                height: 10.0,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -518,6 +517,11 @@ class _FeedsScreenState extends State<FeedsScreen> {
     await LoginProvider.read(context).loadData();
     postList = LoginProvider.read(context).postList;
     //postList = await Api.getPosts();
+    setState(() {});
+  }
+
+  Future<void> onRefresh() async {
+    loadPosts();
     setState(() {});
   }
 

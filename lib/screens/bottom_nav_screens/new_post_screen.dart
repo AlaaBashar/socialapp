@@ -233,7 +233,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
       ..postImage = postUrl ?? '';
 
     await Api.setPost(postModel: postModel).then((value) {
-      loadPosts();
       showSnackBar(context, 'Post published');
 
     }).catchError((onError) {
@@ -248,10 +247,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
 
 
 
-  }
-  Future<void> loadPosts() async {
-    await LoginProvider.read(context).loadData();
-    setState(() {});
   }
   void addPhoto() async {
       postImage = await Storage.getGalleryImage(image: postImage)

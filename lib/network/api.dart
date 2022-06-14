@@ -24,11 +24,9 @@ class Api {
   static Future<UserModel?> getUserFromUid({String? uid}) async {
     DocumentSnapshot documentSnapshot =
         await db.collection(CollectionsFireStoreKeys.USERS).doc(uid).get();
-
     if (documentSnapshot.data() != null) {
       Map<String, dynamic>? map = documentSnapshot.data() as Map<String, dynamic>?;
       UserModel userApp = UserModel.fromJson(map!);
-
       Auth.updateUserInPref(userApp);
       Auth.currentUser = userApp;
       return userApp;
@@ -36,10 +34,32 @@ class Api {
     return null;
   }
 
+  static Future<List<UserModel>?> getAllUser() async {
+    List<UserModel> userList = [];
+    if (userList.isEmpty) {
+      await db.collection(CollectionsFireStoreKeys.USERS).get().then((value) => {
+                if(value.docs.isNotEmpty){
+                  value.docs.forEach((element) {
+                    if (element.data()['uid'] != Auth.currentUser!.uid) {
+                      userList.add(UserModel.fromJson(element.data()));
+                    }
+                  })
+                }
+              });
+             }
+
+    return userList;
+  }
+
+
   static Future<dynamic> editUserProfile({UserModel? model,String? docId,BuildContext? context}) async {
     List<PostModel>? post = LoginProvider.read(context).postList;
     List<PostCommentsModel>? commentsList = <PostCommentsModel>[];
      post!.forEach((element) {
+       // if(element.userUid == model!.uid){
+       //   element.user == model;
+       //
+       // }
        commentsList.addAll(element.comments!.toList()) ;
     });
 
@@ -47,7 +67,6 @@ class Api {
     model!.uid = docId;
     CollectionReference doc = db.collection(CollectionsFireStoreKeys.USERS);
     await doc.doc(model.uid).update(model.toJson());
-
 
     CollectionReference docs = db.collection(CollectionsFireStoreKeys.POSTS);
     await docs.where('userUid',isEqualTo: Auth.currentUser!.uid).get().then((value) => {
@@ -61,19 +80,21 @@ class Api {
     CollectionReference comments = db.collection(CollectionsFireStoreKeys.POSTS);
     commentsList.forEach((element) async{
       await comments.doc(element.postUid).update({'comments': FieldValue.delete()});
-      PostCommentsModel? postCommentsModel;
-      if(element.userUid == Auth.currentUser!.uid) {
-        debugPrint('${element.postUid}');
-        element.user = model;
-        postCommentsModel = element;
-        await comments.doc(element.postUid).update({'comments': FieldValue.arrayUnion([postCommentsModel.toJson()])});
-      }
-      else{
-        postCommentsModel = element;
-        await comments.doc(element.postUid).update({'comments': FieldValue.arrayUnion([postCommentsModel.toJson()])});
-
-      }
     });
+     commentsList.forEach((element) async{
+       PostCommentsModel? postCommentsModel;
+       if(element.userUid == Auth.currentUser!.uid) {
+         debugPrint('${element.postUid}');
+         element.user = model;
+         postCommentsModel = element;
+         await comments.doc(element.postUid).update({'comments': FieldValue.arrayUnion([postCommentsModel.toJson()])});
+       }
+       else{
+         postCommentsModel = element;
+         await comments.doc(element.postUid).update({'comments': FieldValue.arrayUnion([postCommentsModel.toJson()])});
+
+       }
+     });
 
 
     }catch(onError){

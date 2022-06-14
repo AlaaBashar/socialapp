@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:socialapp/export_feature.dart';
 
 class EditSettingsScreen extends StatefulWidget {
@@ -50,252 +49,257 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
           const SizedBox(width: 15.0,),
         ],
       ),
-      body: FadeInUp(
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 230.0,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Stack(
-                        alignment: AlignmentDirectional.topEnd,
-                        children: [
-                          widget.userData.cover!.isNotEmpty?
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Container(
-                              height: 180.0,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(4.0),
-                                  topLeft: Radius.circular(4.0),
-                                ),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image:coverImage == null
-                                      ?CachedNetworkImageProvider('${widget.userData.cover}'):FileImage(coverImage!) as ImageProvider
-                                ),
-                              ),
-                            ),
-                          ):Align(
-                            alignment: Alignment.topCenter,
-                            child: Container(
-                              height: 180.0,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(4.0),
-                                  topLeft: Radius.circular(4.0),
-                                ),
-                                image: DecorationImage(
+      body: InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: ()=> FocusScope.of(context).unfocus(),
+        child: FadeInUp(
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 230.0,
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Stack(
+                          alignment: AlignmentDirectional.topEnd,
+                          children: [
+                            widget.userData.cover!.isNotEmpty?
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                height: 180.0,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(4.0),
+                                    topLeft: Radius.circular(4.0),
+                                  ),
+                                  image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image:coverImage == null
-                                        ?const AssetImage(ImageHelper.cover):FileImage(coverImage!) as ImageProvider
+                                        ?CachedNetworkImageProvider('${widget.userData.cover}'):FileImage(coverImage!) as ImageProvider
+                                  ),
+                                ),
+                              ),
+                            ):Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                height: 180.0,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(4.0),
+                                    topLeft: Radius.circular(4.0),
+                                  ),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image:coverImage == null
+                                          ?const AssetImage(ImageHelper.cover):FileImage(coverImage!) as ImageProvider
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
 
-                          IconButton(
-                            iconSize: 15.0,
-                            onPressed: getCoverImage,
-                            icon: CircleAvatar(
-                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                child: const Icon(Icons.camera_enhance,)),
-                          )
-                        ],
-                      ),
-                      Stack(
-                        alignment: AlignmentDirectional.bottomEnd,
-                        children: [
-                      widget.userData.image!.isNotEmpty
-                          ?CircleAvatar(
-                            radius: 60.0,
-                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                            child: CircleAvatar(
-                              radius: 55.0,
-                              backgroundImage: profileImage == null
-                                  ? NetworkImage('${widget.userData.image}')
-                                  : FileImage(profileImage!) as ImageProvider,
+                            IconButton(
+                              iconSize: 15.0,
+                              onPressed: getCoverImage,
+                              icon: CircleAvatar(
+                                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                  child: const Icon(Icons.camera_enhance,)),
+                            )
+                          ],
+                        ),
+                        Stack(
+                          alignment: AlignmentDirectional.bottomEnd,
+                          children: [
+                        widget.userData.image!.isNotEmpty
+                            ?CircleAvatar(
+                              radius: 60.0,
+                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                              child: CircleAvatar(
+                                radius: 55.0,
+                                backgroundImage: profileImage == null
+                                    ? NetworkImage('${widget.userData.image}')
+                                    : FileImage(profileImage!) as ImageProvider,
+                              ),
+                            )
+                            :CircleAvatar(
+                              radius: 60.0,
+                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                              child: CircleAvatar(
+                                radius: 55.0,
+                                backgroundImage: profileImage == null
+                                    ? const AssetImage(ImageHelper.user)
+                                    : FileImage(profileImage!) as ImageProvider,
+                              ),
                             ),
-                          )
-                          :CircleAvatar(
-                            radius: 60.0,
-                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                            child: CircleAvatar(
-                              radius: 55.0,
-                              backgroundImage: profileImage == null
-                                  ? const AssetImage(ImageHelper.user)
-                                  : FileImage(profileImage!) as ImageProvider,
+                            IconButton(
+                              iconSize: 15.0,
+                              onPressed: getProfileImage,
+                              icon: CircleAvatar(
+                                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                  child: const Icon(Icons.camera_enhance,)),
                             ),
-                          ),
-                          IconButton(
-                            iconSize: 15.0,
-                            onPressed: getProfileImage,
-                            icon: CircleAvatar(
-                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                child: const Icon(Icons.camera_enhance,)),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 12.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Column(
-                    children: [
-                      TextFieldApp(
-                        height: 60.0,
-                        controller: nameController,
-                        hintText: 'Name',
-                        isRTL: false,
-                        showCursor: true,
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () => nameController.clear(),
-                        ),
-                        icon: const Icon(MyFlutterApp.user),
-                        inputFormatters: [
-                          RegExpValidator.insertEnglish,
-                          RegExpValidator.beginWhitespace,
-                        ],
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            ShowToastSnackBar.displayToast(message: 'Name Must Be Not Empty');
-                            return '';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
-                      TextFieldApp(
-                        type: TextInputType.phone,
-                        height: 60.0,
-                        controller: phoneController,
-                        hintText: 'Phone',
-                        isRTL: false,
-                        showCursor: true,
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () => phoneController.clear(),
-                        ),
-                        icon: const Icon(MyFlutterApp.phone),
-                        inputFormatters: [
-                          RegExpValidator.clearWhitespace
-                        ],
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            ShowToastSnackBar.displayToast(message: 'Phone must be not empty');
-                            return '';
-                          }
-                          if (!RegExpValidator.isValidPhone(phone: value) && value.isNotEmpty) {
-                            ShowToastSnackBar.displayToast(message: 'At least 10 digit of phone');
-                            return '';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
-                      TextFieldApp(
-                        height: 60.0,
-                        controller: bioController,
-                        hintText: 'Bio',
-                        isRTL: false,
-                        showCursor: true,
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () => bioController.clear(),
-                        ),
-                        icon: const Icon(MyFlutterApp.info_circle),
-                        inputFormatters: [
-                          RegExpValidator.beginWhitespace,
-                          RegExpValidator.insertEnglish
-                        ],
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            ShowToastSnackBar.displayToast(message: 'Bio must be not empty');
-                            return '';
-                          }
-
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
-                      TextFieldApp(
-                        height: 60.0,
-                        readOnly: true,
-                        onTap: ()async{
-                          String? date = await DateTimePicker.datePicker(context: context);
-                          birthdayController.text = date!;
-                        },
-                        controller: birthdayController,
-                        hintText: 'Birthday Date',
-                        isRTL: false,
-                        showCursor: true,
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () => birthdayController.clear(),
-                        ),
-                        icon: const Icon(Icons.date_range),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            ShowToastSnackBar.displayToast(message: 'Birthday date Must Be Not Empty');
-                            return '';
-                          }
-
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
-                      TextFieldApp(
-                        height: 60.0,
-                        type: TextInputType.number,
-                        controller: idController,
-                        hintText: 'Phone',
-                        isRTL: false,
-                        showCursor: true,
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () => idController.clear(),
-                        ),
-                        icon: const Icon(Icons.credit_card),
-                        inputFormatters: [
-                          RegExpValidator.clearWhitespace,
-                        ],
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            ShowToastSnackBar.displayToast(message: 'ID must be not empty');
-                            return '';
-                          }
-                          if (!RegExpValidator.isValidPhone(phone: value) && value.isNotEmpty) {
-                            ShowToastSnackBar.displayToast(message: 'At least 10 digit of ID');
-                            return '';
-                          }
-                          return null;
-                        },
-                      ),
-                                         ],
+                  const SizedBox(
+                    height: 12.0,
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Column(
+                      children: [
+                        TextFieldApp(
+                          height: 60.0,
+                          controller: nameController,
+                          hintText: 'Name',
+                          isRTL: false,
+                          showCursor: true,
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () => nameController.clear(),
+                          ),
+                          icon: const Icon(MyFlutterApp.user),
+                          inputFormatters: [
+                            RegExpValidator.insertEnglish,
+                            RegExpValidator.beginWhitespace,
+                          ],
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              ShowToastSnackBar.displayToast(message: 'Name Must Be Not Empty');
+                              return '';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        TextFieldApp(
+                          type: TextInputType.phone,
+                          height: 60.0,
+                          controller: phoneController,
+                          hintText: 'Phone',
+                          isRTL: false,
+                          showCursor: true,
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () => phoneController.clear(),
+                          ),
+                          icon: const Icon(MyFlutterApp.phone),
+                          inputFormatters: [
+                            RegExpValidator.clearWhitespace
+                          ],
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              ShowToastSnackBar.displayToast(message: 'Phone must be not empty');
+                              return '';
+                            }
+                            if (!RegExpValidator.isValidPhone(phone: value) && value.isNotEmpty) {
+                              ShowToastSnackBar.displayToast(message: 'At least 10 digit of phone');
+                              return '';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        TextFieldApp(
+                          height: 60.0,
+                          controller: bioController,
+                          hintText: 'Bio',
+                          isRTL: false,
+                          showCursor: true,
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () => bioController.clear(),
+                          ),
+                          icon: const Icon(MyFlutterApp.info_circle),
+                          inputFormatters: [
+                            RegExpValidator.beginWhitespace,
+                            RegExpValidator.insertEnglish
+                          ],
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              ShowToastSnackBar.displayToast(message: 'Bio must be not empty');
+                              return '';
+                            }
+
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        TextFieldApp(
+                          height: 60.0,
+                          readOnly: true,
+                          onTap: ()async{
+                            String? date = await DateTimePicker.datePicker(context: context);
+                            birthdayController.text = date!;
+                          },
+                          controller: birthdayController,
+                          hintText: 'Birthday Date',
+                          isRTL: false,
+                          showCursor: true,
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () => birthdayController.clear(),
+                          ),
+                          icon: const Icon(Icons.date_range),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              ShowToastSnackBar.displayToast(message: 'Birthday date Must Be Not Empty');
+                              return '';
+                            }
+
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        TextFieldApp(
+                          height: 60.0,
+                          type: TextInputType.number,
+                          controller: idController,
+                          hintText: 'Phone',
+                          isRTL: false,
+                          showCursor: true,
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () => idController.clear(),
+                          ),
+                          icon: const Icon(Icons.credit_card),
+                          inputFormatters: [
+                            RegExpValidator.clearWhitespace,
+                          ],
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              ShowToastSnackBar.displayToast(message: 'ID must be not empty');
+                              return '';
+                            }
+                            if (!RegExpValidator.isValidPhone(phone: value) && value.isNotEmpty) {
+                              ShowToastSnackBar.displayToast(message: 'At least 10 digit of ID');
+                              return '';
+                            }
+                            return null;
+                          },
+                        ),
+                                           ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
