@@ -75,7 +75,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
         postCommentsModel.commentsContent = updateController.text;
         postCommentsModel.user = Auth.currentUser;
         postModel!.comments![postModel.comments!.indexWhere((element) => element.commentUid == postCommentsModel.commentUid)]= postCommentsModel;
-        await Api.updateComments(postModel.postUid,postModel.comments!);
+        await Api.updateComments(postModel.postUid,postModel.comments!.toList());
         Navigator.pop(context,true);
         setState(() {});
       }

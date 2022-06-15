@@ -89,14 +89,7 @@ class _CommentsOptionsSheetState extends State<CommentsOptionsSheet> {
 
   void onEdit()async{
     //widget.editComments!();
-    await openNewPage(context, EditCommentScreen(postModel: widget.postModel, postCommentsModel: widget.postCommentsModel,)).then((value) {
-
-      if(value){
-
-      }
-
-
-    });
+     openNewPage(context, EditCommentScreen(postModel: widget.postModel, postCommentsModel: widget.postCommentsModel,));
     Navigator.pop(context);
     setState(() {});
   }

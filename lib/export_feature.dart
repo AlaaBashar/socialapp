@@ -30,6 +30,7 @@ export 'models/user_model.dart';
 export 'models/post_model.dart';
 export 'models/post_comments_model.dart';
 export 'models/post_like_model.dart';
+export 'models/message_model.dart';
 
 ///HELPER
 export 'helper/image_helper.dart';

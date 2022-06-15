@@ -51,7 +51,6 @@ class Api {
     return userList;
   }
 
-
   static Future<dynamic> editUserProfile({UserModel? model,String? docId,BuildContext? context}) async {
     List<PostModel>? post = LoginProvider.read(context).postList;
     List<PostCommentsModel>? commentsList = <PostCommentsModel>[];
@@ -120,7 +119,6 @@ class Api {
     if (postsList.isNotEmpty) {postsList.sort((a, b) => b.date!.compareTo(a.date!));}
     return postsList;
   }
-
   // static Future<dynamic> setPostLike({required PostLikes postLikes,required String? postUid }) async {
   //   try {
   //     DocumentReference doc =  db
@@ -182,14 +180,88 @@ class Api {
     await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
       'comments': FieldValue.delete()});
 
-    commentList!.forEach((element) async{
-      PostCommentsModel? postCommentsModel = element;
-      await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
-        'comments': FieldValue.arrayUnion([postCommentsModel.toJson()])
-      });
-    });
+     // await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).set({
+     //   'comments': commentList!
+     // });
+
+     commentList!.forEach((element) async{
+       PostCommentsModel? postCommentsModel = element;
+       await db.collection(CollectionsFireStoreKeys.POSTS).doc(postUid).update({
+         'comments': FieldValue.arrayUnion([postCommentsModel.toJson()])
+       });
+     });
 
   }
+
+  static Future<void> sendMessages({MessageModel? messageModel}) async {
+    try {
+      DocumentReference senderDoc = db.collection(CollectionsFireStoreKeys.USERS)
+          .doc(messageModel!.senderUid)
+          .collection(CollectionsFireStoreKeys.CHAT)
+          .doc(messageModel.receiverUid)
+          .collection(CollectionsFireStoreKeys.MESSAGE)
+          .doc();
+          messageModel.messageUid = senderDoc.id;
+      await senderDoc
+          .set(messageModel.toJson())
+          .then((value) {})
+          .catchError((onError) {
+        debugPrint(onError.toString());
+        Future.error(onError.toString());
+      });
+
+      DocumentReference receiverDoc = db.collection(CollectionsFireStoreKeys.USERS)
+          .doc(messageModel.receiverUid)
+          .collection(CollectionsFireStoreKeys.CHAT)
+          .doc(messageModel.senderUid)
+          .collection(CollectionsFireStoreKeys.MESSAGE)
+          .doc();
+      messageModel.messageUid = receiverDoc.id;
+      await receiverDoc
+          .set(messageModel.toJson())
+          .then((value) {})
+          .catchError((onError) {
+        debugPrint(onError.toString());
+        Future.error(onError.toString());
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+      return Future.error(e.toString());
+    }
+
+  }
+  static Stream<QuerySnapshot<Object?>>? getMessages({required String? receiverUid}) {
+    Stream<QuerySnapshot> collectionReference =  db
+        .collection(CollectionsFireStoreKeys.USERS)
+        .doc(Auth.currentUser!.uid)
+        .collection(CollectionsFireStoreKeys.CHAT)
+        .doc(receiverUid)
+        .collection(CollectionsFireStoreKeys.MESSAGE)
+        .orderBy('date')
+        .snapshots();
+    return collectionReference;
+
+
+
+  }
+  static Future<void> removeMessages({MessageModel? messageModel}) async {
+    try {
+      DocumentReference doc =
+          db.collection(CollectionsFireStoreKeys.USERS)
+              .doc(Auth.currentUser!.uid)
+              .collection(CollectionsFireStoreKeys.CHAT)
+              .doc(messageModel!.receiverUid).collection(CollectionsFireStoreKeys.MESSAGE)
+              .doc(messageModel.messageUid);
+      await doc.delete();
+    } catch (e) {
+      debugPrint(e.toString());
+      return Future.error(e.toString());
+    }
+
+  }
+
+
+
 
 
 
