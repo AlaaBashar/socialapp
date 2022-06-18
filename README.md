@@ -25,7 +25,6 @@ Any more elaboration please reach me out on :<br />
 
 1- Email:alaabashar19@gmail.com. <br />
 2- Facebook:shorturl.at/jlvR5. <br />
-3- Yahoo:alaa.lahlouh42@yahoo.com. <br />
 
 Sincerely, Alaa Lahlouh
 
