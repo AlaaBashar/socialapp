@@ -38,6 +38,7 @@ class ReusableCachedNetworkImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: imageUrl,
       cacheKey: imageUrl,
+
       height: height,
       width: width,
       fit: fit,

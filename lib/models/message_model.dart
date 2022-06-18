@@ -3,6 +3,7 @@ class MessageModel{
   String? receiverUid;
   String? message;
   String? messageUid;
+  String? imageMessage;
   DateTime? date;
 
   MessageModel({
@@ -10,6 +11,7 @@ class MessageModel{
     this.receiverUid,
     this.message,
     this.messageUid,
+    this.imageMessage,
     this.date,
   });
 
@@ -18,6 +20,7 @@ class MessageModel{
       senderUid: json['senderUid'] ?? '' ,
       receiverUid: json['receiverUid'] ?? '',
       message: json['message'] ?? '',
+      imageMessage: json['imageMessage'] ?? '',
       messageUid: json['messageUid'] ?? '',
       date:DateTime.parse(json["date"]),
     );
@@ -27,6 +30,7 @@ class MessageModel{
     return {
       'senderUid': senderUid ?? '',
       'receiverUid': receiverUid ?? '',
+      'imageMessage': imageMessage ?? '',
       'message': message ?? '',
       'messageUid': messageUid ?? '',
       'date': date!.toIso8601String(),

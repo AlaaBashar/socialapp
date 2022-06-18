@@ -88,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               icon: const Icon(Icons.clear),
                               onPressed: () => nameController.clear(),
                             ),
-                            icon: const Icon(Icons.text_fields),
+                            prefixIcon: const Icon(Icons.text_fields),
                             inputFormatters: [
                               RegExpValidator.insertEnglish
                             ],
@@ -113,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               icon: const Icon(Icons.clear),
                               onPressed: () => emailController.clear(),
                             ),
-                            icon: const Icon(Icons.email),
+                            prefixIcon: const Icon(Icons.email),
                             inputFormatters: [
                               RegExpValidator.clearWhitespace,
                               RegExpValidator.insertEnglish
@@ -144,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               icon: Icon(RegisterProvider.watch(context).modeIcon),
                               onPressed: () => suffixOnPressed(),
                             ),
-                            icon: const Icon(Icons.lock),
+                            prefixIcon: const Icon(Icons.lock),
                             inputFormatters: [
                               RegExpValidator.clearWhitespace
                             ],
@@ -170,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               icon: const Icon(Icons.clear),
                               onPressed: () => phoneController.clear(),
                             ),
-                            icon: const Icon(Icons.phone_android),
+                            prefixIcon: const Icon(Icons.phone_android),
                             inputFormatters: [
                               RegExpValidator.clearWhitespace
                             ],
@@ -205,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               icon: const Icon(Icons.clear),
                               onPressed: () => birthdayController.clear(),
                             ),
-                            icon: const Icon(Icons.date_range),
+                            prefixIcon: const Icon(Icons.date_range),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 ShowToastSnackBar.displayToast(message: 'Birthday date Must Be Not Empty');
@@ -229,7 +229,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               icon: const Icon(Icons.clear),
                               onPressed: () => idController.clear(),
                             ),
-                            icon: const Icon(Icons.app_registration),
+                            prefixIcon: const Icon(Icons.app_registration),
                             inputFormatters: [
                               RegExpValidator.clearWhitespace
                             ],

@@ -210,39 +210,36 @@ class _NewPostScreenState extends State<NewPostScreen> {
   }
 
   void onPost() async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
     FocusScope.of(context).requestFocus(FocusNode());
     FocusManager.instance.primaryFocus?.unfocus();
     String? postContent = postController.text;
     String? postUrl;
-    ///ProgressLinearDialog.show(context,title: 'Posting');
+    ProgressCircleDialog.show(context,);
     if (postImage != null) {
       postUrl = await Storage.uploadUserImage(image: postImage)
           .catchError((onError) {
         showSnackBar(context, onError.toString());
       });
     }
-    PostModel postModel = PostModel();
-    postModel
-      ..userUid = userData!.uid
-      ..user = userData
-      ..postContent = postContent
-      ..date = DateTime.now()
-      ..postImage = postUrl ?? '';
+    if (postContent.isNotEmpty || postUrl!.isNotEmpty) {
+      PostModel postModel = PostModel();
+      postModel
+        ..userUid = userData!.uid
+        ..user = userData
+        ..postContent = postContent
+        ..date = DateTime.now()
+        ..postImage = postUrl;
 
-    await Api.setPost(postModel: postModel).then((value) {
-      showSnackBar(context, 'Post published');
-
-    }).catchError((onError) {
-      debugPrint(onError.toString());
-      showSnackBar(context, onError.toString());
-     /// ProgressLinearDialog.dismiss(context);
-    });
-
+      await Api.setPost(postModel: postModel).then((value) {
+        showSnackBar(context, 'Post published');
+      }).catchError((onError) {
+        debugPrint(onError.toString());
+        showSnackBar(context, onError.toString());
+        ProgressCircleDialog.dismiss(context);
+      });
+    }
     Navigator.pop(context,true);
-    ///ProgressLinearDialog.dismiss(context);
+    ProgressCircleDialog.dismiss(context);
 
 
 
@@ -253,8 +250,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
           .catchError((onError) {
         showSnackBar(context, onError.toString());
       }) ?? postImage;
-
-
     setState(() {});
   }
 

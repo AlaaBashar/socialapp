@@ -196,9 +196,9 @@ class Api {
   static Future<void> sendMessages({MessageModel? messageModel}) async {
     try {
       DocumentReference senderDoc = db.collection(CollectionsFireStoreKeys.USERS)
-          .doc(messageModel!.senderUid)
+          .doc(Auth.currentUser!.uid)
           .collection(CollectionsFireStoreKeys.CHAT)
-          .doc(messageModel.receiverUid)
+          .doc(messageModel!.receiverUid)
           .collection(CollectionsFireStoreKeys.MESSAGE)
           .doc();
           messageModel.messageUid = senderDoc.id;
@@ -213,7 +213,7 @@ class Api {
       DocumentReference receiverDoc = db.collection(CollectionsFireStoreKeys.USERS)
           .doc(messageModel.receiverUid)
           .collection(CollectionsFireStoreKeys.CHAT)
-          .doc(messageModel.senderUid)
+          .doc(Auth.currentUser!.uid)
           .collection(CollectionsFireStoreKeys.MESSAGE)
           .doc();
       messageModel.messageUid = receiverDoc.id;
@@ -230,6 +230,7 @@ class Api {
     }
 
   }
+
   static Stream<QuerySnapshot<Object?>>? getMessages({required String? receiverUid}) {
     Stream<QuerySnapshot> collectionReference =  db
         .collection(CollectionsFireStoreKeys.USERS)
@@ -244,25 +245,35 @@ class Api {
 
 
   }
+
   static Future<void> removeMessages({MessageModel? messageModel}) async {
     try {
+      if(messageModel!.senderUid == Auth.currentUser!.uid){
       DocumentReference doc =
           db.collection(CollectionsFireStoreKeys.USERS)
-              .doc(Auth.currentUser!.uid)
+              .doc(messageModel.senderUid)
               .collection(CollectionsFireStoreKeys.CHAT)
-              .doc(messageModel!.receiverUid).collection(CollectionsFireStoreKeys.MESSAGE)
+              .doc(messageModel.receiverUid)
+              .collection(CollectionsFireStoreKeys.MESSAGE)
               .doc(messageModel.messageUid);
       await doc.delete();
+      }
+      else{
+        DocumentReference doc =
+        db.collection(CollectionsFireStoreKeys.USERS)
+            .doc(messageModel.receiverUid)
+            .collection(CollectionsFireStoreKeys.CHAT)
+            .doc(messageModel.senderUid)
+            .collection(CollectionsFireStoreKeys.MESSAGE)
+            .doc(messageModel.messageUid);
+        await doc.delete();
+
+      }
     } catch (e) {
       debugPrint(e.toString());
       return Future.error(e.toString());
     }
 
   }
-
-
-
-
-
 
 }

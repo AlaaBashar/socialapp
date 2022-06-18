@@ -74,7 +74,7 @@ class ContainerWidget extends StatelessWidget {
         )
             : null,
         color:color,
-        borderRadius: borderRadius!,
+        borderRadius: borderRadius ?? BorderRadiusDirectional.circular(0.0),
         gradient: showGradient! ? LinearGradient(
           begin: beginGradientAlign ?? Alignment.topRight,
           end: endGradientAlign ?? Alignment.bottomLeft,

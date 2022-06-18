@@ -24,7 +24,7 @@ class EditUserDate with ChangeNotifier, DiagnosticableTreeMixin {
     String? imageUrl;
     String? coverUrl;
 
-    ProgressLinearDialog.show(context, title: 'Editing in progress');
+    ProgressCircleDialog.show(context,);
 
     if (profileImage != null) {
       imageUrl = await Storage.uploadUserImage(image: profileImage)
@@ -54,10 +54,10 @@ class EditUserDate with ChangeNotifier, DiagnosticableTreeMixin {
     await Api.editUserProfile(model: userModel, docId: Auth.currentUser!.uid,context: context)
         .catchError((onError) {
       showSnackBar(context, onError.toString());
-      ProgressLinearDialog.dismiss(context);
+      ProgressCircleDialog.dismiss(context);
     });
 
-    ProgressLinearDialog.dismiss(context);
+    ProgressCircleDialog.dismiss(context);
 
     Navigator.pop(context, true);
 

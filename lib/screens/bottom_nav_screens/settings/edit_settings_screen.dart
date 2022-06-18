@@ -167,7 +167,7 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                             icon: const Icon(Icons.clear),
                             onPressed: () => nameController.clear(),
                           ),
-                          icon: const Icon(MyFlutterApp.user),
+                          prefixIcon: const Icon(MyFlutterApp.user),
                           inputFormatters: [
                             RegExpValidator.insertEnglish,
                             RegExpValidator.beginWhitespace,
@@ -194,7 +194,7 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                             icon: const Icon(Icons.clear),
                             onPressed: () => phoneController.clear(),
                           ),
-                          icon: const Icon(MyFlutterApp.phone),
+                          prefixIcon: const Icon(MyFlutterApp.phone),
                           inputFormatters: [
                             RegExpValidator.clearWhitespace
                           ],
@@ -223,7 +223,7 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                             icon: const Icon(Icons.clear),
                             onPressed: () => bioController.clear(),
                           ),
-                          icon: const Icon(MyFlutterApp.info_circle),
+                          prefixIcon: const Icon(MyFlutterApp.info_circle),
                           inputFormatters: [
                             RegExpValidator.beginWhitespace,
                             RegExpValidator.insertEnglish
@@ -255,7 +255,7 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                             icon: const Icon(Icons.clear),
                             onPressed: () => birthdayController.clear(),
                           ),
-                          icon: const Icon(Icons.date_range),
+                          prefixIcon: const Icon(Icons.date_range),
                           validator: (value) {
                             if (value!.isEmpty) {
                               ShowToastSnackBar.displayToast(message: 'Birthday date Must Be Not Empty');
@@ -279,7 +279,7 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
                             icon: const Icon(Icons.clear),
                             onPressed: () => idController.clear(),
                           ),
-                          icon: const Icon(Icons.credit_card),
+                          prefixIcon: const Icon(Icons.credit_card),
                           inputFormatters: [
                             RegExpValidator.clearWhitespace,
                           ],

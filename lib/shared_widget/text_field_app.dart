@@ -15,7 +15,8 @@ class TextFieldApp extends StatefulWidget {
   final bool isRTL ;
   final bool readOnly;
   final int? maxLines;
-  final Widget? icon;
+  final Widget? prefixIcon;
+  final Widget? suffix;
   final Color? fillColor;
 
   final EdgeInsets? margin;
@@ -41,7 +42,7 @@ class TextFieldApp extends StatefulWidget {
         this.enableInput = true,
         this.isRTL = true,
         this.maxLines,
-        this.icon,
+        this.prefixIcon,
         this.radiusSide = true,
         this.validator,
         this.margin,
@@ -57,7 +58,7 @@ class TextFieldApp extends StatefulWidget {
         this.marginHorizontal = 15.0,
     this.borderRadius,
     this.showCursor = false,
-    this.height = 40.0, this.isExpands = false, this.fillColor,
+    this.height = 40.0, this.isExpands = false, this.fillColor, this.suffix,
   }) : super(key: key);
 
   @override
@@ -93,6 +94,7 @@ class _TextFieldAppState extends State<TextFieldApp> {
                 bottomLeft: Radius.circular(8.0)),
             color: Colors.transparent,
             child: TextFormField(
+
               expands: widget.isExpands,
               controller: widget.controller,
               textDirection:widget.isRTL ?  TextDirection.rtl : TextDirection.ltr ,
@@ -176,7 +178,8 @@ class _TextFieldAppState extends State<TextFieldApp> {
                  ),
                  filled: true,
                  fillColor: widget.fillColor ??Theme.of(context).scaffoldBackgroundColor,
-                 prefixIcon: widget.icon,
+                 prefixIcon: widget.prefixIcon,
+                 suffix:widget.suffix ,
                  suffixIcon: widget.suffixIcon == null ? null : Padding(padding: const EdgeInsets.all(0.0), child: widget.suffixIcon,),
                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
                ),

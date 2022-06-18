@@ -10,45 +10,23 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
+class _HomeScreenState extends State<HomeScreen> {
   DateTime? currentBackPressTime;
-  late final AnimationController controller;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      reverseDuration: const Duration(milliseconds: 500),
-      vsync:this,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     var homeRead = HomeProvider.read(context);
     var homeWatch = HomeProvider.watch(context);
-    bool expanded = true;
     return Scaffold(
       drawer:const NavDrawer(),
-      onDrawerChanged: (onDrawerChanged){
-        debugPrint('onDrawerChanged? $onDrawerChanged');
-        onDrawerChanged ? controller.forward(): controller.reverse();
-        setState(() {});
-      },
       appBar: DefaultAppbar(
         titlesList: homeWatch.titles,
         titlesIndex: homeWatch.currentIndex,
         leading: Builder(builder: (context){
           return IconButton(
-              icon: AnimatedIcon(
-                icon: AnimatedIcons.menu_home,
-                progress: controller,
-                semanticLabel: 'Show menu',
-              ),
+              icon: const Icon(Icons.menu),
               onPressed: () {
-                expanded ? controller.forward() : controller.reverse();
-                expanded = !expanded;
+
                 Scaffold.of(context).openDrawer();
             },
           );
@@ -131,13 +109,8 @@ class NavDrawer extends StatefulWidget {
 
 class _NavDrawerState extends State<NavDrawer> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+
     return Drawer(
       child: Column(
 
@@ -198,9 +171,9 @@ class _NavDrawerState extends State<NavDrawer> {
       ),
     );
   }
-
   void onLogout() async {
     ProgressCircleDialog.show(context);
+    HomeProvider.read(context).currentIndex = 0;
     await Auth.logout();
     ProgressCircleDialog.dismiss(context);
     openNewPage(context, const SplashScreen());

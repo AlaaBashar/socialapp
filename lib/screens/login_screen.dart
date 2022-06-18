@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               icon: const Icon(Icons.clear),
                               onPressed: () => emailController.clear(),
                             ),
-                            icon: const Icon(Icons.email),
+                            prefixIcon: const Icon(Icons.email),
                             inputFormatters: [
                               RegExpValidator.clearWhitespace
                             ],
@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               icon: Icon(LoginProvider.watch(context).modeIcon),
                               onPressed: () => suffixOnPressed(),
                             ),
-                              icon: const Icon(Icons.lock),
+                              prefixIcon: const Icon(Icons.lock),
                             inputFormatters: [
                               RegExpValidator.clearWhitespace
                             ],

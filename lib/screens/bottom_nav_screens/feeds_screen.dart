@@ -61,6 +61,86 @@ class _FeedsScreenState extends State<FeedsScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: 0.0,),
+              InkWell(
+                onTap: ()=> openNewPage(context, const NewPostScreen()),
+                hoverColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Card(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  margin: const EdgeInsets.all(8.0),
+
+                  elevation: 6.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Row(children: [
+                          Container(
+                            width: 50.0,
+                            height: 50.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: CachedNetworkImageProvider('${Auth.currentUser!.image}'),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16.0,),
+                          Text('Hi,${Auth.currentUser!.name}'),
+                        ],),
+                        Container(
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            borderRadius:BorderRadius.circular(30.0) ,
+                              border: Border.all(color: Colors.grey)
+                          ),
+                            child: Text(
+                          'Have something to share with the community?',
+                          style: Theme.of(context).textTheme.caption,
+                        )),
+                        buildDivider(),
+                        Row(children: [
+                          const SizedBox(width: 20.0,),
+                          Expanded(
+                              child: Row(
+                                children: const [
+                                  Icon(Icons.photo,color: Colors.blue),
+                                  SizedBox(width: 10.0,),
+                                  Text('Photo')
+                                ],
+                              ),
+                            ),
+                          Expanded(
+                            child: Row(
+                              children: const [
+                                Icon(Icons.video_call_rounded,color: Colors.green),
+                                SizedBox(width: 10.0,),
+                                Text('Video')
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: const [
+                                Icon(Icons.shopping_bag,color: Colors.red),
+                                SizedBox(width: 10.0,),
+                                Text('Products')
+                              ],
+                            ),
+                          ),
+
+                        ],),
+
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 40.0,),
+
               postList != null
                   ? ListView.separated(
                       physics: const ScrollPhysics(),

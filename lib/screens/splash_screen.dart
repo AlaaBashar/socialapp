@@ -25,11 +25,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool? backGround = ChangeMode.watch(context).isDark;
+
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent,),);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Container(
+          //   decoration:  BoxDecoration(
+          //       image:DecorationImage(
+          //         invertColors:backGround? false : true ,
+          //         image: const AssetImage(ImageHelper.logo),
+          //       ) ),
+          //
+          // ),
           Image.asset(
             ImageHelper.logo,
             width: 150.0,
