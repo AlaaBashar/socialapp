@@ -22,8 +22,8 @@ Please do not hesitate to reach out if you would like additional information.
 
 Any more elaboration please reach me out on :
 
-1- Email:alaabashar19@gmail.com
-2- Facebook:shorturl.at/jlvR5
-3- Yahoo:alaa.lahlouh42@yahoo.com
+1- Email:alaabashar19@gmail.com. 
+2- Facebook:shorturl.at/jlvR5. 
+3- Yahoo:alaa.lahlouh42@yahoo.com. 
 
 Sincerely, Alaa Lahlouh
